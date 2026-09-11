@@ -1,0 +1,11 @@
+Cod_Producto,Producto,Categoría,Marca,Precio_Lista
+P001,Laptop Lenovo IdeaPad,LAPTOPS,Lenovo,3200
+P002,Laptop HP 14,LAPTOPS,HP,2900
+P003,Monitor Samsung 24,MONITORES,Samsung,850
+P004,Monitor LG 27,MONITORES,LG,1150
+P005,Mouse Logitech M185,ACCESORIOS,Logitech,65
+P006,Teclado Logitech K120,ACCESORIOS,Logitech,75
+P007,Impresora Epson L3250,IMPRESORAS,Epson,780
+P008,Disco SSD Kingston 1TB,COMPONENTES,Kingston,320
+P009,Memoria RAM 16GB,COMPONENTES,Kingston,280
+P010,Webcam Logitech C920,ACCESORIOS,Logitech,350

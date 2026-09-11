@@ -1,0 +1,28 @@
+=== PASO 1: EXTRACCIÓN ===
+Productos: 10 filas | Clientes: 8 filas
+Tiendas: 6 filas | Canales: 3 filas
+Ventas origen (limpias): 18 filas
+Ventas con problemas (a corregir): 6 filas
+Metas mensuales: 12 filas
+
+=== PASO 2: LIMPIEZA DE VENTAS_ORIGEN ===
+Fechas normalizadas a formato datetime. Total filas: 18
+
+=== PASO 3: LIMPIEZA DE VENTAS_CON_PROBLEMAS ===
+  Registro con producto 'laptop hp 14' -> resuelto a código P002
+  Fechas normalizadas en ventas con problemas.
+  1 registro(s) con signo negativo corregidos a valor absoluto (asunción: error de captura, no devolución).
+  Registro 2004: Importe nulo -> recalculado como 1 x 780 = 780
+  1 registro(s) con importe nulo recalculados desde precio de lista.
+  Duplicados eliminados: 1 registro(s) (se conservó la primera ocurrencia).
+  NOTA: los registros de marzo no traían Cod_Tienda/Cod_Canal en la fuente. Se asignó T01 y Canal 1 como supuesto documentado para fines del ejercicio.
+
+=== PASO 4: INTEGRACIÓN ===
+Tabla de hechos consolidada: 23 filas totales (18 de origen + 5 corregidas de calidad).
+
+=== PASO 5: TABLA CALENDARIO ===
+Tabla calendario generada: 63 días, desde 2026-01-02 hasta 2026-03-05.
+
+=== PASO 6: CARGA ===
+Archivos CSV exportados a 'salida/'.
+Base de datos SQLite creada en 'salida/cotep_dw.db'.

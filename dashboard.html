@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COTEP S.A.C. — Dashboard Gerencial BI</title>
+  
+  <!-- Carga de Chart.js vía CDN con fallback local a chart.min.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    if (typeof Chart === 'undefined') {
+      document.write('<script src="chart.min.js"><\/script>');
+    }
+  </script>
+  
+  <!-- Carga de datos del Data Mart (exportados desde SQLite) -->
+  <script src="datos.js"></script>
+
+  <style>
+    :root {
+      --primary: #0f172a;
+      --primary-light: #1e293b;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --success: #059669;
+      --success-bg: #ecfdf5;
+      --warning: #d97706;
+      --warning-bg: #fffbeb;
+      --danger: #dc2626;
+      --danger-bg: #fef2f2;
+      --info: #0284c7;
+      --info-bg: #f0f9ff;
+      --bg: #f1f5f9;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #ffffff;
+      padding: 1.25rem 2rem;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .brand-logo {
+      width: 46px;
+      height: 46px;
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.4rem;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+    }
+
+    .brand-text h1 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-text p {
+      font-size: 0.825rem;
+      color: #94a3b8;
+    }
+
+    .header-badges {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .badge-outline {
+      background: rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .badge-success {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    /* NAVIGATION TABS */
+    nav.tabs-nav {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 76px;
+      z-index: 90;
+    }
+
+    .tabs-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0.5rem;
+      padding: 0 2rem;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      padding: 0.9rem 1.4rem;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      font-size: 0.925rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: var(--accent);
+      background-color: #f8fafc;
+    }
+
+    .tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .tab-badge {
+      background: #e2e8f0;
+      color: #475569;
+      padding: 0.15rem 0.45rem;
+      border-radius: 9999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .tab-btn.active .tab-badge {
+      background: #dbeafe;
+      color: var(--accent);
+    }
+
+    /* MAIN CONTAINER */
+    main {
+      flex: 1;
+      max-width: 1400px;
+      width: 100%;
+      margin: 1.5rem auto;
+      padding: 0 2rem;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ALERT CALLOUTS */
+    .alert {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      border: 1px solid;
+    }
+
+    .alert-danger {
+      background-color: var(--danger-bg);
+      border-color: #fecaca;
+      color: #991b1b;
+    }
+
+    .alert-info {
+      background-color: var(--info-bg);
+      border-color: #bae6fd;
+      color: #075985;
+    }
+
+    .alert-warning {
+      background-color: var(--warning-bg);
+      border-color: #fed7aa;
+      color: #9a3412;
+    }
+
+    .alert-icon {
+      font-size: 1.35rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .alert-content strong {
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 0.2rem;
+    }
+
+    /* KPI CARDS GRID */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .kpi-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.4rem;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--accent);
+    }
+
+    .kpi-card.kpi-success::before { background: var(--success); }
+    .kpi-card.kpi-danger::before { background: var(--danger); }
+    .kpi-card.kpi-warning::before { background: var(--warning); }
+    .kpi-card.kpi-info::before { background: var(--info); }
+
+    .kpi-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .kpi-title {
+      font-size: 0.825rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .kpi-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    .kpi-value {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.35rem;
+    }
+
+    .kpi-footer {
+      font-size: 0.775rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .kpi-diff {
+      display: inline-flex;
+      align-items: center;
+      font-weight: 700;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+    }
+
+    .diff-down {
+      background-color: var(--danger-bg);
+      color: var(--danger);
+    }
+
+    .diff-up {
+      background-color: var(--success-bg);
+      color: var(--success);
+    }
+
+    /* CHARTS & CARDS LAYOUT */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 0.75rem;
+    }
+
+    .card-title h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .card-title p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.15rem;
+    }
+
+    .chart-container {
+      position: relative;
+      width: 100%;
+      height: 290px;
+    }
+
+    /* TABLES */
+    .table-responsive {
+      overflow-x: auto;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      text-align: left;
+    }
+
+    thead th {
+      background: #f8fafc;
+      color: #475569;
+      font-weight: 600;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    tbody td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #f1f5f9;
+      color: var(--text);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background-color: #f8fafc;
+    }
+
+    .text-right { text-align: right; }
+    .text-center { text-align: center; }
+    .font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+
+    /* STATUS PILLS */
+    .pill {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      font-size: 0.725rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .pill-danger {
+      background: var(--danger-bg);
+      color: var(--danger);
+      border: 1px solid #fecaca;
+    }
+
+    .pill-warning {
+      background: var(--warning-bg);
+      color: var(--warning);
+      border: 1px solid #fed7aa;
+    }
+
+    .pill-success {
+      background: var(--success-bg);
+      color: var(--success);
+      border: 1px solid #a7f3d0;
+    }
+
+    .progress-bar-bg {
+      background: #e2e8f0;
+      border-radius: 9999px;
+      height: 8px;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 9999px;
+      transition: width 0.4s ease;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #ffffff;
+      border-top: 1px solid var(--border);
+      padding: 1.25rem 2rem;
+      margin-top: auto;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .footer-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    /* MODAL RAW DATA */
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid var(--border);
+      padding: 0.45rem 0.9rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: #e2e8f0;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #ffffff;
+      width: 100%;
+      max-width: 950px;
+      max-height: 85vh;
+      border-radius: var(--radius);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-container">
+      <div class="brand-section">
+        <div class="brand-logo">C</div>
+        <div class="brand-text">
+          <h1>COTEP S.A.C. — Tablero de Inteligencia de Negocios</h1>
+          <p>Data Mart de Ventas • Gestión y Análisis de Datos e Información (Q1 2026)</p>
+        </div>
+      </div>
+      <div class="header-badges">
+        <span class="badge badge-outline">Esquema Estrella (SQLite)</span>
+        <span class="badge badge-success">● ETL Procesado</span>
+        <button class="btn-secondary" onclick="abrirModalModelo()" style="color: #fff; background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.25);">
+          📊 Explorar Data Mart
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- PESTAÑAS DE NAVEGACIÓN -->
+  <nav class="tabs-nav">
+    <div class="tabs-container">
+      <button class="tab-btn active" onclick="cambiarPestana('tab-resumen', this)">
+        <span>📈 Resumen Ejecutivo</span>
+        <span class="tab-badge">KPIs</span>
+      </button>
+      <button class="tab-btn" onclick="cambiarPestana('tab-tiendas', this)">
+        <span>🏪 Análisis de Tiendas y Metas</span>
+        <span class="tab-badge">6 Tiendas</span>
+      </button>
+      <button class="tab-btn" onclick="cambiarPestana('tab-clientes-productos', this)">
+        <span>👥 Clientes y Productos</span>
+        <span class="tab-badge">Top Rankings</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main>
+
+    <!-- ======================================================== -->
+    <!-- PÁGINA 1: RESUMEN EJECUTIVO                              -->
+    <!-- ======================================================== -->
+    <section id="tab-resumen" class="tab-content active">
+
+      <!-- TARJETAS DE KPIS PRINCIPALES -->
+      <div class="kpi-grid">
+        <div class="kpi-card kpi-info">
+          <div class="kpi-header">
+            <span class="kpi-title">Ventas Totales (Ene - Feb)</span>
+            <div class="kpi-icon">💰</div>
+          </div>
+          <div class="kpi-value">S/ 63,500</div>
+          <div class="kpi-footer">
+            <span>Evaluación bimestral con metas oficiales</span>
+          </div>
+        </div>
+
+        <div class="kpi-card kpi-success">
+          <div class="kpi-header">
+            <span class="kpi-title">Unidades Vendidas</span>
+            <div class="kpi-icon">📦</div>
+          </div>
+          <div class="kpi-value">50 und</div>
+          <div class="kpi-footer">
+            <span>25 und en Enero · 25 und en Febrero</span>
+          </div>
+        </div>
+
+        <div class="kpi-card kpi-warning">
+          <div class="kpi-header">
+            <span class="kpi-title">Transacciones Registradas</span>
+            <div class="kpi-icon">🧾</div>
+          </div>
+          <div class="kpi-value">18 ventas</div>
+          <div class="kpi-footer">
+            <span>10 en Enero · 8 en Febrero</span>
+          </div>
+        </div>
+
+        <div class="kpi-card kpi-danger">
+          <div class="kpi-header">
+            <span class="kpi-title">Variación Mensual Facturación</span>
+            <div class="kpi-icon">📉</div>
+          </div>
+          <div class="kpi-value">-10.02%</div>
+          <div class="kpi-footer">
+            <span class="kpi-diff diff-down">▼ S/ 3,350 menos</span>
+            <span>Enero (S/ 33,425) → Feb (S/ 30,075)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- NOTA DE RESUMEN ANALÍTICO -->
+      <div class="alert alert-info">
+        <div class="alert-icon">💡</div>
+        <div class="alert-content">
+          <strong>Diagnóstico Ejecutivo Bimestral:</strong>
+          Durante enero y febrero de 2026, la facturación comercial experimentó una contracción del <strong>10.02%</strong>. Existe una alta concentración de ingresos en el segmento corporativo (86.7%) y en la línea de laptops (71.7%), mientras que el canal <em>E-Commerce</em> no registró movimiento en el período.
+        </div>
+      </div>
+
+      <!-- GRÁFICOS PÁGINA 1 -->
+      <div class="grid-3">
+        <!-- Gráfico 1: Ventas por Mes -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <h3>Ventas Mensuales (S/)</h3>
+              <p>Comparativo mensual de facturación</p>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="chartVentasMes"></canvas>
+          </div>
+        </div>
+
+        <!-- Gráfico 2: Ventas por Categoría -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <h3>Ventas por Categoría</h3>
+              <p>Participación monetaria por línea de producto</p>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="chartCategorias"></canvas>
+          </div>
+        </div>
+
+        <!-- Gráfico 3: Ventas por Canal -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <h3>Ventas por Canal</h3>
+              <p>Distribución de ingresos por canal comercial</p>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="chartCanales"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABLA RESUMEN POR CATEGORÍAS -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <h3>Detalle Consolidado por Línea de Negocio (Ene - Feb 2026)</h3>
+            <p>Volumen físico vs monetario por categoría</p>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Categoría</th>
+                <th class="text-center">Unidades</th>
+                <th class="text-right">Monto Total (S/)</th>
+                <th class="text-right">% Facturación</th>
+                <th>Participación Visual</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>💻 LAPTOPS</strong></td>
+                <td class="text-center font-mono">15</td>
+                <td class="text-right font-mono font-bold">S/ 45,500.00</td>
+                <td class="text-right font-mono">71.65%</td>
+                <td>
+                  <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 71.65%; background: #2563eb;"></div></div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>🖥️ MONITORES</strong></td>
+                <td class="text-center font-mono">12</td>
+                <td class="text-right font-mono">S/ 11,400.00</td>
+                <td class="text-right font-mono">17.95%</td>
+                <td>
+                  <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 17.95%; background: #0ea5e9;"></div></div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>🖨️ IMPRESORAS</strong></td>
+                <td class="text-center font-mono">4</td>
+                <td class="text-right font-mono">S/ 3,120.00</td>
+                <td class="text-right font-mono">4.91%</td>
+                <td>
+                  <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 4.91%; background: #10b981;"></div></div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>🔌 COMPONENTES</strong></td>
+                <td class="text-center font-mono">9</td>
+                <td class="text-right font-mono">S/ 2,800.00</td>
+                <td class="text-right font-mono">4.41%</td>
+                <td>
+                  <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 4.41%; background: #8b5cf6;"></div></div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>🖱️ ACCESORIOS</strong></td>
+                <td class="text-center font-mono">10</td>
+                <td class="text-right font-mono">S/ 680.00</td>
+                <td class="text-right font-mono">1.07%</td>
+                <td>
+                  <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 1.07%; background: #f59e0b;"></div></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- PÁGINA 2: ANÁLISIS DE TIENDAS Y METAS                    -->
+    <!-- ======================================================== -->
+    <section id="tab-tiendas" class="tab-content">
+      
+      <!-- ALERTA CRÍTICA DESTACADA -->
+      <div class="alert alert-danger">
+        <div class="alert-icon">⚠️</div>
+        <div class="alert-content">
+          <strong>Alerta Crítica de Cumplimiento Comercial:</strong>
+          <ul>
+            <li><strong>Ninguna tienda de COTEP S.A.C. alcanzó el 100% de su meta comercial</strong> en enero ni en febrero de 2026.</li>
+            <li><strong>COTEP Surco (T06) registra 0.00% de cumplimiento</strong> en ambos meses: S/ 0 en ventas frente a una meta bimestral de S/ 57,000. Requiere auditoría operativa inmediata.</li>
+            <li>La tienda con mayor rendimiento acumulado fue <strong>COTEP Centro (T01)</strong> con <strong>54.61%</strong> (S/ 37,680 vendidos vs S/ 69,000 proyectados).</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- GRÁFICO COMPARATIVO METAS VS VENTAS -->
+      <div class="card" style="margin-bottom: 1.5rem;">
+        <div class="card-header">
+          <div class="card-title">
+            <h3>Cumplimiento de Metas: Venta Real vs Meta Comercial (Bimestral)</h3>
+            <p>Comparación por punto de venta en Soles (S/)</p>
+          </div>
+        </div>
+        <div class="chart-container" style="height: 320px;">
+          <canvas id="chartMetasTiendas"></canvas>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- RANKING DE PEOR A MEJOR CUMPLIMIENTO -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <h3>🚨 Ranking de Tiendas: Prioridad de Atención</h3>
+              <p>Ordenadas de menor a mayor cumplimiento bimestral</p>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Prioridad</th>
+                  <th>Tienda</th>
+                  <th>Zona</th>
+                  <th class="text-right">Cumplimiento</th>
+                  <th>Semáforo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="background-color: #fff1f2;">
+                  <td><strong>#1 Crítica</strong></td>
+                  <td><strong>COTEP Surco (T06)</strong></td>
+                  <td>Sur</td>
+                  <td class="text-right font-mono font-bold" style="color: #dc2626;">0.00%</td>
+                  <td><span class="pill pill-danger">Sin Ventas</span></td>
+                </tr>
+                <tr>
+                  <td><strong>#2 Urgente</strong></td>
+                  <td>COTEP Miraflores (T03)</td>
+                  <td>Sur</td>
+                  <td class="text-right font-mono" style="color: #dc2626;">2.18%</td>
+                  <td><span class="pill pill-danger">Crítico</span></td>
+                </tr>
+                <tr>
+                  <td><strong>#3 Atención</strong></td>
+                  <td>COTEP San Miguel (T04)</td>
+                  <td>Oeste</td>
+                  <td class="text-right font-mono" style="color: #dc2626;">5.75%</td>
+                  <td><span class="pill pill-danger">Crítico</span></td>
+                </tr>
+                <tr>
+                  <td><strong>#4 Atención</strong></td>
+                  <td>COTEP Los Olivos (T05)</td>
+                  <td>Norte</td>
+                  <td class="text-right font-mono" style="color: #dc2626;">6.94%</td>
+                  <td><span class="pill pill-danger">Crítico</span></td>
+                </tr>
+                <tr>
+                  <td><strong>#5 Seguimiento</strong></td>
+                  <td>COTEP San Isidro (T02)</td>
+                  <td>Centro</td>
+                  <td class="text-right font-mono" style="color: #d97706;">25.96%</td>
+                  <td><span class="pill pill-warning">Bajo</span></td>
+                </tr>
+                <tr style="background-color: #f0fdf4;">
+                  <td><strong>#6 Líder</strong></td>
+                  <td><strong>COTEP Centro (T01)</strong></td>
+                  <td>Centro</td>
+                  <td class="text-right font-mono font-bold" style="color: #15803d;">54.61%</td>
+                  <td><span class="pill pill-success">Regular / Mejor</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- GRÁFICO CUMPLIMIENTO PORCENTUAL -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <h3>Tasa de Cumplimiento Bimestral (%)</h3>
+              <p>Porcentaje alcanzado respecto al 100% de la meta</p>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="chartCumplimientoPct"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABLA DETALLADA MES A MES POR TIENDA -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <h3>Matriz Detallada de Metas y Ventas por Mes</h3>
+            <p>Enero y Febrero 2026 desagregado por punto de venta</p>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Mes</th>
+                <th>Cód.</th>
+                <th>Tienda</th>
+                <th>Distrito</th>
+                <th class="text-right">Meta (S/)</th>
+                <th class="text-right">Venta Real (S/)</th>
+                <th class="text-right">Brecha (S/)</th>
+                <th class="text-center">% Cumpl.</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- ENERO -->
+              <tr>
+                <td><strong>Enero</strong></td>
+                <td class="font-mono">T01</td>
+                <td>COTEP Centro</td>
+                <td>Cercado de Lima</td>
+                <td class="text-right font-mono">S/ 35,000</td>
+                <td class="text-right font-mono font-bold">S/ 16,780</td>
+                <td class="text-right font-mono" style="color: #dc2626;">-S/ 18,220</td>
+                <td class="text-center font-mono font-bold">47.94%</td>
+                <td><span class="pill pill-warning">Bajo</span></td>
+              </tr>
+              <tr>
+                <td><strong>Enero</strong></td>
+                <td class="font-mono">T02</td>
+                <td>COTEP San Isidro</td>
+                <td>San Isidro</td>
+                <td class="text-right font-mono">S/ 32,000</td>
+                <td class="text-right font-mono font-bold">S/ 10,840</td>
+                <td class="text-right font-mono" style="color: #dc2626;">-S/ 21,160</td>
+                <td class="text-center font-mono">33.88%</td>
+                <td><span class="pill pill-warning">Bajo</span></td>
+              </tr>
+              <tr>
+                <td><strong>Enero</strong></td>
+                <td class="font-mono">T05</td>
+                <td>COTEP Los Olivos</td>
+                <td>Los Olivos</td>
+                <td class="text-right font-mono">S/ 25,000</td>
+                <td class="text-right font-mono">S/ 2,900</td>
+                <td class="text-right font-mono" style="color: #dc2626;">-S/ 22,100</td>
+                <td class="text-center font-mono">11.60%</td>
+                <td><span class="pill pill-danger">Crítico</span></td>
+              </tr>
+              <tr>
+                <td><strong>Enero</strong></td>
+                <td class="font-mono">T04</td>
+                <td>COTEP San Miguel</td>
+                <td>San Miguel</td>
+                <td class="text-right font-mono">S/ 30,000</td>
+                <td class="text-right font-mono">S/ 2,550</td>
+                <td class="text-right font-mono" style="color: #dc2626;">-S/ 27,450</td>
+                <td class="text-center font-mono">8.50%</td>
+                <td><span class="pill pill-danger">Crítico</span></td>
+              </tr>
+              <tr>
+                <td><strong>Enero</strong></td>
+                <td class="font-mono">T03</td>
+                <td>COTEP Miraflores</td>
+                <td>Miraflores</td>
+                <td class="text-right font-mono">S/ 28,000</td>
+                <td class="text-right font-mono">S/ 355</td>
+                <td class="text-right font-mono" style="color: #dc2626;">-S/ 27,645</td>
+                <td class="text-center font-mono">1.27%</td>
+                <td><span class="pill pill-danger">Crítico</span></td>
+              </tr>
+              <tr style="background-color: #fff1f2;">
+                <td><strong>Enero</strong></td>
+                <td class="font-mono">T06</td>
+                <td>COTEP Surco</td>
+                <td>Santiago de Surco</td>
+                <td class="text-right font-mono">S/ 27,000</td>
+                <td class="text-right font-mono">S/ 0</td>
+                <td class="text-right font-mono" style="color: #dc2626;">-S/ 27,000</td>
+                <td class="text-center font-mono font-bold" style="color: #dc2626;">0.00%</td>
+                <td><span class="pill pill-danger">Sin Ventas</span></td>
+              </tr>
+
+              <!-- FEBRERO -->
+              <tr>
+                <td><strong>Febrero</strong></td>
+                <td class="font-mono">T01</td>
+                <td>COTEP Centro</td>
+                <td>Cercado de Lima</td>
+                <td class="text-right font-mono">S/ 34,000</td>
+                <td class="text-right font-mono font-bold">S/ 20,900</td>
+                <td class="text-right font-mono" style="color: #dc2626;">-S/ 13,100</td>
+                <td class="text-center font-mono font-bold" style="color: #15803d;">61.47%</td>
+                <td><span class="pill pill-success">Regular</span></td>
+              </tr>
+              <tr>
+                <td><strong>Febrero</strong></td>
+                <td class="font-mono">T02</td>
+                <td>COTEP San Isidro</td>
+                <td>San Isidro</td>
+                <td class="text-right font-mono">S/ 35,000</td>
+                <td class="text-right font-mono font-bold">S/ 6,550</td>
+                <td class="text-right font-mono" style="color: #dc2626;">-S/ 28,450</td>
+                <td class="text-center font-mono">18.71%</td>
+                <td><span class="pill pill-danger">Crítico</span></td>
+              </tr>
+              <tr>
+                <td><strong>Febrero</strong></td>
+                <td class="font-mono">T04</td>
+                <td>COTEP San Miguel</td>
+                <td>San Miguel</td>
+                <td class="text-right font-mono">S/ 31,000</td>
+                <td class="text-right font-mono">S/ 960</td>
+                <td class="text-right font-mono" style="color: #dc2626;">-S/ 30,040</td>
+                <td class="text-center font-mono">3.10%</td>
+                <td><span class="pill pill-danger">Crítico</span></td>
+              </tr>
+              <tr>
+                <td><strong>Febrero</strong></td>
+                <td class="font-mono">T03</td>
+                <td>COTEP Miraflores</td>
+                <td>Miraflores</td>
+                <td class="text-right font-mono">S/ 29,000</td>
+                <td class="text-right font-mono">S/ 885</td>
+                <td class="text-right font-mono" style="color: #dc2626;">-S/ 28,115</td>
+                <td class="text-center font-mono">3.05%</td>
+                <td><span class="pill pill-danger">Crítico</span></td>
+              </tr>
+              <tr>
+                <td><strong>Febrero</strong></td>
+                <td class="font-mono">T05</td>
+                <td>COTEP Los Olivos</td>
+                <td>Los Olivos</td>
+                <td class="text-right font-mono">S/ 28,000</td>
+                <td class="text-right font-mono">S/ 780</td>
+                <td class="text-right font-mono" style="color: #dc2626;">-S/ 27,220</td>
+                <td class="text-center font-mono">2.79%</td>
+                <td><span class="pill pill-danger">Crítico</span></td>
+              </tr>
+              <tr style="background-color: #fff1f2;">
+                <td><strong>Febrero</strong></td>
+                <td class="font-mono">T06</td>
+                <td>COTEP Surco</td>
+                <td>Santiago de Surco</td>
+                <td class="text-right font-mono">S/ 30,000</td>
+                <td class="text-right font-mono">S/ 0</td>
+                <td class="text-right font-mono" style="color: #dc2626;">-S/ 30,000</td>
+                <td class="text-center font-mono font-bold" style="color: #dc2626;">0.00%</td>
+                <td><span class="pill pill-danger">Sin Ventas</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- PÁGINA 3: ANÁLISIS DE CLIENTES Y PRODUCTOS               -->
+    <!-- ======================================================== -->
+    <section id="tab-clientes-productos" class="tab-content">
+      
+      <!-- ACLARACIÓN METODOLÓGICA DESTACADA -->
+      <div class="alert alert-warning">
+        <div class="alert-icon">📌</div>
+        <div class="alert-content">
+          <strong>Aclaración Metodológica — Disparidad entre Unidades e Importe:</strong>
+          El ranking de clientes varía sustancialmente según el criterio aplicado. Si se evalúa por <strong>unidades</strong>, <em>Tecnología Global SAC</em> ocupa el primer puesto (9 unidades); sin embargo, por <strong>monto facturado (S/)</strong>, <em>Grupo Alpha SAC</em> es el líder indiscutible con <strong>S/ 24,800</strong> (casi el doble del segundo puesto), debido a que concentró pedidos de laptops de alta gama. Además, clientes como <em>Soluciones Digitales SAC</em> y <em>Carlos Ramírez Soto</em> ingresan al Top 5 por monto pero no por volumen.
+        </div>
+      </div>
+
+      <!-- COMPARATIVO TOP 5 CLIENTES -->
+      <div class="grid-2">
+        <!-- Top 5 por Unidades -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <h3>Top 5 Clientes por Unidades Compradas</h3>
+              <p>Volumen físico adquirido (Ene - Feb)</p>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="chartTopClientesUnidades"></canvas>
+          </div>
+          <div class="table-responsive" style="margin-top: 1rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Cliente</th>
+                  <th>Segmento</th>
+                  <th class="text-center">Unidades</th>
+                  <th class="text-right">Monto (S/)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>1</td><td><strong>Tecnología Global SAC</strong></td><td><span class="pill pill-success">CORPORATIVO</span></td><td class="text-center font-mono font-bold">9</td><td class="text-right font-mono">S/ 12,750</td></tr>
+                <tr><td>2</td><td><strong>Grupo Alpha SAC</strong></td><td><span class="pill pill-success">CORPORATIVO</span></td><td class="text-center font-mono font-bold">8</td><td class="text-right font-mono">S/ 24,800</td></tr>
+                <tr><td>3</td><td><strong>Servicios Integrales SAC</strong></td><td><span class="pill pill-success">CORPORATIVO</span></td><td class="text-center font-mono font-bold">8</td><td class="text-right font-mono">S/ 12,880</td></tr>
+                <tr><td>4</td><td>Juan Pérez García</td><td><span class="pill pill-warning">PERSONA</span></td><td class="text-center font-mono">7</td><td class="text-right font-mono">S/ 2,790</td></tr>
+                <tr><td>5</td><td>María López Torres</td><td><span class="pill pill-warning">PERSONA</span></td><td class="text-center font-mono">6</td><td class="text-right font-mono">S/ 1,175</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Top 5 por Monto Facturado -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <h3>Top 5 Clientes por Monto Facturado (S/)</h3>
+              <p>Contribución al flujo de ingresos (Ene - Feb)</p>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="chartTopClientesMonto"></canvas>
+          </div>
+          <div class="table-responsive" style="margin-top: 1rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Cliente</th>
+                  <th>Segmento</th>
+                  <th class="text-right">Monto Total</th>
+                  <th class="text-center">Unid.</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="background-color: #f0fdf4;"><td>1</td><td><strong>Grupo Alpha SAC</strong></td><td><span class="pill pill-success">CORPORATIVO</span></td><td class="text-right font-mono font-bold" style="color: #15803d;">S/ 24,800</td><td class="text-center font-mono">8</td></tr>
+                <tr><td>2</td><td><strong>Servicios Integrales SAC</strong></td><td><span class="pill pill-success">CORPORATIVO</span></td><td class="text-right font-mono font-bold">S/ 12,880</td><td class="text-center font-mono">8</td></tr>
+                <tr><td>3</td><td><strong>Tecnología Global SAC</strong></td><td><span class="pill pill-success">CORPORATIVO</span></td><td class="text-right font-mono font-bold">S/ 12,750</td><td class="text-center font-mono">9</td></tr>
+                <tr><td>4</td><td>Soluciones Digitales SAC</td><td><span class="pill pill-success">CORPORATIVO</span></td><td class="text-right font-mono">S/ 4,640</td><td class="text-center font-mono">5</td></tr>
+                <tr><td>5</td><td>Carlos Ramírez Soto</td><td><span class="pill pill-warning">PERSONA</span></td><td class="text-right font-mono">S/ 3,680</td><td class="text-center font-mono">2</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN DE PRODUCTOS -->
+      <div class="grid-2" style="margin-top: 1.5rem;">
+        <!-- Gráfico Top Productos Unidades -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <h3>Top Productos más Vendidos por Unidades</h3>
+              <p>Laptop Lenovo IdeaPad lidera el portafolio comercial</p>
+            </div>
+          </div>
+          <div class="chart-container" style="height: 330px;">
+            <canvas id="chartTopProductos"></canvas>
+          </div>
+        </div>
+
+        <!-- Matriz de Productos -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <h3>Catálogo de Productos y Desempeño Comercial</h3>
+              <p>Detalle por código, categoría y facturación acumulada</p>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Cód.</th>
+                  <th>Producto</th>
+                  <th>Categoría</th>
+                  <th class="text-center">Unid.</th>
+                  <th class="text-right">Venta Total (S/)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="font-mono">P001</td>
+                  <td><strong>Laptop Lenovo IdeaPad</strong></td>
+                  <td>LAPTOPS</td>
+                  <td class="text-center font-mono font-bold">10</td>
+                  <td class="text-right font-mono font-bold">S/ 31,000</td>
+                </tr>
+                <tr>
+                  <td class="font-mono">P002</td>
+                  <td>Laptop HP 14</td>
+                  <td>LAPTOPS</td>
+                  <td class="text-center font-mono">5</td>
+                  <td class="text-right font-mono">S/ 14,500</td>
+                </tr>
+                <tr>
+                  <td class="font-mono">P003</td>
+                  <td>Monitor Samsung 24</td>
+                  <td>MONITORES</td>
+                  <td class="text-center font-mono">8</td>
+                  <td class="text-right font-mono">S/ 6,800</td>
+                </tr>
+                <tr>
+                  <td class="font-mono">P004</td>
+                  <td>Monitor LG 27</td>
+                  <td>MONITORES</td>
+                  <td class="text-center font-mono">4</td>
+                  <td class="text-right font-mono">S/ 4,600</td>
+                </tr>
+                <tr>
+                  <td class="font-mono">P007</td>
+                  <td>Impresora Epson L3250</td>
+                  <td>IMPRESORAS</td>
+                  <td class="text-center font-mono">4</td>
+                  <td class="text-right font-mono">S/ 3,120</td>
+                </tr>
+                <tr>
+                  <td class="font-mono">P008</td>
+                  <td>Disco SSD Kingston 1TB</td>
+                  <td>COMPONENTES</td>
+                  <td class="text-center font-mono">7</td>
+                  <td class="text-right font-mono">S/ 2,240</td>
+                </tr>
+                <tr>
+                  <td class="font-mono">P009</td>
+                  <td>Memoria RAM 16GB</td>
+                  <td>COMPONENTES</td>
+                  <td class="text-center font-mono">2</td>
+                  <td class="text-right font-mono">S/ 560</td>
+                </tr>
+                <tr>
+                  <td class="font-mono">P005</td>
+                  <td>Mouse Logitech M185</td>
+                  <td>ACCESORIOS</td>
+                  <td class="text-center font-mono">7</td>
+                  <td class="text-right font-mono">S/ 455</td>
+                </tr>
+                <tr>
+                  <td class="font-mono">P006</td>
+                  <td>Teclado Logitech K120</td>
+                  <td>ACCESORIOS</td>
+                  <td class="text-center font-mono">3</td>
+                  <td class="text-right font-mono">S/ 225</td>
+                </tr>
+                <tr style="color: #94a3b8;">
+                  <td class="font-mono">P010</td>
+                  <td>Webcam Logitech C920</td>
+                  <td>ACCESORIOS</td>
+                  <td class="text-center font-mono">0</td>
+                  <td class="text-right font-mono">S/ 0</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-container">
+      <div>
+        <strong>COTEP S.A.C.</strong> — Solución de Business Intelligence & Data Mart de Ventas
+      </div>
+      <div>
+        Trabajo N° 01 • Gestión y Análisis de Datos e Información • Ciclo VI
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL PARA INSPECCIONAR EL DATA MART (SQLITE) -->
+  <div id="modalDataMart" class="modal-overlay" onclick="cerrarModalFuera(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 style="font-size: 1.1rem; font-weight: 700;">Modelo Dimensional (Esquema Estrella)</h3>
+        <button class="btn-secondary" onclick="cerrarModalModelo()" style="padding: 0.25rem 0.6rem;">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;" id="tablasSelector">
+          <button class="btn-secondary" onclick="mostrarTabla('FACT_VENTAS')">FACT_VENTAS (23)</button>
+          <button class="btn-secondary" onclick="mostrarTabla('DIM_PRODUCTO')">DIM_PRODUCTO (10)</button>
+          <button class="btn-secondary" onclick="mostrarTabla('DIM_CLIENTE')">DIM_CLIENTE (8)</button>
+          <button class="btn-secondary" onclick="mostrarTabla('DIM_TIENDA')">DIM_TIENDA (6)</button>
+          <button class="btn-secondary" onclick="mostrarTabla('DIM_CANAL')">DIM_CANAL (3)</button>
+          <button class="btn-secondary" onclick="mostrarTabla('METAS')">METAS (12)</button>
+        </div>
+        <div class="table-responsive" id="contenedorTablaModal">
+          <!-- Renderizado dinámico -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LÓGICA JAVASCRIPT Y CHART.JS -->
+  <script>
+    // -------------------------------------------------------------
+    // GESTIÓN DE TABS (PESTAÑAS)
+    // -------------------------------------------------------------
+    function cambiarPestana(tabId, btn) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      
+      const target = document.getElementById(tabId);
+      if (target) target.classList.add('active');
+      if (btn) btn.classList.add('active');
+
+      // Forzar redibujo de Chart.js al cambiar de tab para que ajuste dimensiones
+      window.dispatchEvent(new Event('resize'));
+    }
+
+    // Formateador de moneda en Soles
+    function formatSoles(num) {
+      return 'S/ ' + Number(num).toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    // -------------------------------------------------------------
+    // INICIALIZACIÓN DE GRÁFICOS (CHART.JS)
+    // -------------------------------------------------------------
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // Colores de la paleta institucional
+      const colores = {
+        primary: '#1e3a8a',
+        accent: '#2563eb',
+        teal: '#0d9488',
+        green: '#059669',
+        amber: '#d97706',
+        red: '#dc2626',
+        purple: '#7c3aed',
+        slate: '#64748b'
+      };
+
+      // Configuración común de tipografía
+      Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+      Chart.defaults.color = '#475569';
+
+      // -----------------------------------------------------------
+      // GRÁFICO 1: Ventas por Mes
+      // -----------------------------------------------------------
+      const ctxMes = document.getElementById('chartVentasMes').getContext('2d');
+      new Chart(ctxMes, {
+        type: 'bar',
+        data: {
+          labels: ['Enero 2026', 'Febrero 2026', 'Marzo (Calidad)'],
+          datasets: [{
+            label: 'Venta Real (S/)',
+            data: [33425, 30075, 11360],
+            backgroundColor: ['#2563eb', '#3b82f6', '#94a3b8'],
+            borderRadius: 6,
+            borderSkipped: false
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: (c) => ' Total: ' + formatSoles(c.raw)
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: (val) => 'S/ ' + (val / 1000) + 'k'
+              },
+              grid: { color: '#f1f5f9' }
+            },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+
+      // -----------------------------------------------------------
+      // GRÁFICO 2: Ventas por Categoría (Dona)
+      // -----------------------------------------------------------
+      const ctxCat = document.getElementById('chartCategorias').getContext('2d');
+      new Chart(ctxCat, {
+        type: 'doughnut',
+        data: {
+          labels: ['Laptops (71.7%)', 'Monitores (18.0%)', 'Impresoras (4.9%)', 'Componentes (4.4%)', 'Accesorios (1.1%)'],
+          datasets: [{
+            data: [45500, 11400, 3120, 2800, 680],
+            backgroundColor: [
+              '#2563eb',
+              '#0ea5e9',
+              '#10b981',
+              '#8b5cf6',
+              '#f59e0b'
+            ],
+            borderWidth: 2,
+            borderColor: '#ffffff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { boxWidth: 12, font: { size: 11 }, padding: 10 }
+            },
+            tooltip: {
+              callbacks: {
+                label: (c) => ' ' + c.label + ': ' + formatSoles(c.raw)
+              }
+            }
+          },
+          cutout: '65%'
+        }
+      });
+
+      // -----------------------------------------------------------
+      // GRÁFICO 3: Ventas por Canal
+      // -----------------------------------------------------------
+      const ctxCanal = document.getElementById('chartCanales').getContext('2d');
+      new Chart(ctxCanal, {
+        type: 'bar',
+        data: {
+          labels: ['Venta Corporativa', 'Tienda Física', 'E-Commerce'],
+          datasets: [{
+            label: 'Facturación (S/)',
+            data: [55070, 8430, 0],
+            backgroundColor: ['#1e40af', '#0284c7', '#e2e8f0'],
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: (c) => ' Ventas: ' + formatSoles(c.raw)
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { callback: (val) => 'S/ ' + (val / 1000) + 'k' },
+              grid: { color: '#f1f5f9' }
+            },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+
+      // -----------------------------------------------------------
+      // GRÁFICO 4: Metas vs Ventas por Tienda (Página 2)
+      // -----------------------------------------------------------
+      const ctxMetas = document.getElementById('chartMetasTiendas').getContext('2d');
+      new Chart(ctxMetas, {
+        type: 'bar',
+        data: {
+          labels: [
+            'T01 Centro', 
+            'T02 San Isidro', 
+            'T05 Los Olivos', 
+            'T04 San Miguel', 
+            'T03 Miraflores', 
+            'T06 Surco (Crítico)'
+          ],
+          datasets: [
+            {
+              label: 'Meta Comercial Bimestral (S/)',
+              data: [69000, 67000, 53000, 61000, 57000, 57000],
+              backgroundColor: '#cbd5e1',
+              borderRadius: 6
+            },
+            {
+              label: 'Venta Real Facturada (S/)',
+              data: [37680, 17390, 3680, 3510, 1240, 0],
+              backgroundColor: [
+                '#15803d', // Centro (54.6%)
+                '#f59e0b', // San Isidro (26.0%)
+                '#ef4444', // Los Olivos (6.9%)
+                '#ef4444', // San Miguel (5.8%)
+                '#ef4444', // Miraflores (2.2%)
+                '#991b1b'  // Surco (0.0%)
+              ],
+              borderRadius: 6
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'top' },
+            tooltip: {
+              callbacks: {
+                label: (c) => ' ' + c.dataset.label + ': ' + formatSoles(c.raw)
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { callback: (val) => 'S/ ' + (val / 1000) + 'k' },
+              grid: { color: '#f1f5f9' }
+            },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+
+      // -----------------------------------------------------------
+      // GRÁFICO 5: Cumplimiento Pct por Tienda (Barras Horizontales)
+      // -----------------------------------------------------------
+      const ctxCumpl = document.getElementById('chartCumplimientoPct').getContext('2d');
+      new Chart(ctxCumpl, {
+        type: 'bar',
+        data: {
+          labels: [
+            'T01 Centro',
+            'T02 San Isidro',
+            'T05 Los Olivos',
+            'T04 San Miguel',
+            'T03 Miraflores',
+            'T06 Surco'
+          ],
+          datasets: [{
+            label: '% Cumplimiento',
+            data: [54.61, 25.96, 6.94, 5.75, 2.18, 0.00],
+            backgroundColor: [
+              '#10b981',
+              '#f59e0b',
+              '#ef4444',
+              '#ef4444',
+              '#ef4444',
+              '#b91c1c'
+            ],
+            borderRadius: 6
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: (c) => ' Cumplimiento: ' + c.raw.toFixed(2) + '%'
+              }
+            }
+          },
+          scales: {
+            x: {
+              beginAtZero: true,
+              max: 100,
+              ticks: { callback: (v) => v + '%' },
+              grid: { color: '#f1f5f9' }
+            },
+            y: { grid: { display: false } }
+          }
+        }
+      });
+
+      // -----------------------------------------------------------
+      // GRÁFICO 6: Top Clientes por Unidades
+      // -----------------------------------------------------------
+      const ctxTopCliU = document.getElementById('chartTopClientesUnidades').getContext('2d');
+      new Chart(ctxTopCliU, {
+        type: 'bar',
+        data: {
+          labels: [
+            'Tecnología Global SAC',
+            'Grupo Alpha SAC',
+            'Servicios Integrales SAC',
+            'Juan Pérez García',
+            'María López Torres'
+          ],
+          datasets: [{
+            label: 'Unidades',
+            data: [9, 8, 8, 7, 6],
+            backgroundColor: '#0284c7',
+            borderRadius: 6
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            x: { beginAtZero: true, ticks: { stepSize: 2 } },
+            y: { grid: { display: false } }
+          }
+        }
+      });
+
+      // -----------------------------------------------------------
+      // GRÁFICO 7: Top Clientes por Monto Facturado
+      // -----------------------------------------------------------
+      const ctxTopCliM = document.getElementById('chartTopClientesMonto').getContext('2d');
+      new Chart(ctxTopCliM, {
+        type: 'bar',
+        data: {
+          labels: [
+            'Grupo Alpha SAC',
+            'Servicios Integrales SAC',
+            'Tecnología Global SAC',
+            'Soluciones Digitales SAC',
+            'Carlos Ramírez Soto'
+          ],
+          datasets: [{
+            label: 'Facturación (S/)',
+            data: [24800, 12880, 12750, 4640, 3680],
+            backgroundColor: [
+              '#15803d',
+              '#2563eb',
+              '#2563eb',
+              '#3b82f6',
+              '#f59e0b'
+            ],
+            borderRadius: 6
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: (c) => ' Total: ' + formatSoles(c.raw)
+              }
+            }
+          },
+          scales: {
+            x: {
+              beginAtZero: true,
+              ticks: { callback: (v) => 'S/ ' + (v / 1000) + 'k' }
+            },
+            y: { grid: { display: false } }
+          }
+        }
+      });
+
+      // -----------------------------------------------------------
+      // GRÁFICO 8: Top Productos por Unidades
+      // -----------------------------------------------------------
+      const ctxProd = document.getElementById('chartTopProductos').getContext('2d');
+      new Chart(ctxProd, {
+        type: 'bar',
+        data: {
+          labels: [
+            'Laptop Lenovo IdeaPad',
+            'Monitor Samsung 24',
+            'Disco SSD Kingston 1TB',
+            'Mouse Logitech M185',
+            'Laptop HP 14',
+            'Monitor LG 27',
+            'Impresora Epson L3250'
+          ],
+          datasets: [{
+            label: 'Unidades Vendidas',
+            data: [10, 8, 7, 7, 5, 4, 4],
+            backgroundColor: '#4338ca',
+            borderRadius: 6
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            x: { beginAtZero: true, ticks: { stepSize: 2 } },
+            y: { grid: { display: false } }
+          }
+        }
+      });
+
+      // Cargar primera tabla en modal
+      mostrarTabla('FACT_VENTAS');
+    });
+
+    // -------------------------------------------------------------
+    // MODAL DE TABLAS DEL DATA MART
+    // -------------------------------------------------------------
+    function abrirModalModelo() {
+      document.getElementById('modalDataMart').classList.add('open');
+    }
+
+    function cerrarModalModelo() {
+      document.getElementById('modalDataMart').classList.remove('open');
+    }
+
+    function cerrarModalFuera(e) {
+      if (e.target.id === 'modalDataMart') cerrarModalModelo();
+    }
+
+    function mostrarTabla(nombreTabla) {
+      if (typeof COTEP_DW === 'undefined' || !COTEP_DW[nombreTabla]) {
+        document.getElementById('contenedorTablaModal').innerHTML = '<p style="padding:1rem;color:#94a3b8;">Datos no disponibles.</p>';
+        return;
+      }
+
+      const filas = COTEP_DW[nombreTabla];
+      if (!filas.length) {
+        document.getElementById('contenedorTablaModal').innerHTML = '<p style="padding:1rem;">Tabla vacía.</p>';
+        return;
+      }
+
+      const cols = Object.keys(filas[0]);
+      let html = '<table><thead><tr>';
+      cols.forEach(c => html += `<th>${c}</th>`);
+      html += '</tr></thead><tbody>';
+
+      filas.forEach(r => {
+        html += '<tr>';
+        cols.forEach(c => {
+          let val = r[c] !== null ? r[c] : '<em style="color:#cbd5e1">NULL</em>';
+          html += `<td>${val}</td>`;
+        });
+        html += '</tr>';
+      });
+
+      html += '</tbody></table>';
+      document.getElementById('contenedorTablaModal').innerHTML = html;
+    }
+  </script>
+</body>
+</html>
