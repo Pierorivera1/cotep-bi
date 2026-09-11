@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>COTEP S.A.C. — Dashboard Gerencial BI</title>
+  <title>COTEP S.A.C. — Dashboard Dinámico BI</title>
   
   <!-- Carga de Chart.js vía CDN con fallback local a chart.min.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -61,7 +61,7 @@
     header {
       background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
       color: #ffffff;
-      padding: 1.25rem 2rem;
+      padding: 1.1rem 2rem;
       box-shadow: var(--shadow);
       position: sticky;
       top: 0;
@@ -69,7 +69,7 @@
     }
 
     .header-container {
-      max-width: 1400px;
+      max-width: 1440px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
@@ -85,35 +85,34 @@
     }
 
     .brand-logo {
-      width: 46px;
-      height: 46px;
+      width: 44px;
+      height: 44px;
       background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
       border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 800;
-      font-size: 1.4rem;
-      letter-spacing: -0.5px;
+      font-size: 1.35rem;
       color: #ffffff;
       box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
     }
 
     .brand-text h1 {
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       font-weight: 700;
       letter-spacing: -0.02em;
     }
 
     .brand-text p {
-      font-size: 0.825rem;
+      font-size: 0.8rem;
       color: #94a3b8;
     }
 
     .header-badges {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.65rem;
       flex-wrap: wrap;
     }
 
@@ -121,7 +120,7 @@
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
-      padding: 0.35rem 0.75rem;
+      padding: 0.3rem 0.7rem;
       border-radius: 9999px;
       font-size: 0.75rem;
       font-weight: 600;
@@ -130,7 +129,7 @@
     .badge-outline {
       background: rgba(255, 255, 255, 0.08);
       color: #e2e8f0;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.18);
     }
 
     .badge-success {
@@ -139,17 +138,105 @@
       border: 1px solid rgba(16, 185, 129, 0.3);
     }
 
+    /* BARRA DE FILTROS DINÁMICOS SUPERIOR */
+    .filter-bar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 2rem;
+      position: sticky;
+      top: 68px;
+      z-index: 95;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+
+    .filter-container {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .filter-select {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius-sm);
+      padding: 0.4rem 0.75rem;
+      font-size: 0.825rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .filter-select:hover, .filter-select:focus {
+      border-color: var(--accent);
+      background: #ffffff;
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+    }
+
+    .btn-reset {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+      padding: 0.4rem 0.8rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s;
+    }
+
+    .btn-reset:hover {
+      background: #e2e8f0;
+      color: var(--danger);
+      border-color: #fca5a5;
+    }
+
+    .filter-active-pill {
+      background: #dbeafe;
+      color: var(--accent);
+      padding: 0.2rem 0.55rem;
+      border-radius: 9999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
     /* NAVIGATION TABS */
     nav.tabs-nav {
       background: #ffffff;
       border-bottom: 1px solid var(--border);
       position: sticky;
-      top: 76px;
+      top: 125px;
       z-index: 90;
     }
 
     .tabs-container {
-      max-width: 1400px;
+      max-width: 1440px;
       margin: 0 auto;
       display: flex;
       gap: 0.5rem;
@@ -158,11 +245,11 @@
     }
 
     .tab-btn {
-      padding: 0.9rem 1.4rem;
+      padding: 0.85rem 1.4rem;
       background: none;
       border: none;
       border-bottom: 3px solid transparent;
-      font-size: 0.925rem;
+      font-size: 0.92rem;
       font-weight: 600;
       color: var(--text-muted);
       cursor: pointer;
@@ -200,7 +287,7 @@
     /* MAIN CONTAINER */
     main {
       flex: 1;
-      max-width: 1400px;
+      max-width: 1440px;
       width: 100%;
       margin: 1.5rem auto;
       padding: 0 2rem;
@@ -208,7 +295,7 @@
 
     .tab-content {
       display: none;
-      animation: fadeIn 0.3s ease forwards;
+      animation: fadeIn 0.25s ease forwards;
     }
 
     .tab-content.active {
@@ -216,7 +303,7 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
+      from { opacity: 0; transform: translateY(4px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -265,7 +352,7 @@
     /* KPI CARDS GRID */
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 1.25rem;
       margin-bottom: 1.75rem;
     }
@@ -307,12 +394,12 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
     }
 
     .kpi-title {
-      font-size: 0.825rem;
-      font-weight: 600;
+      font-size: 0.8rem;
+      font-weight: 700;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.04em;
@@ -334,7 +421,7 @@
       font-weight: 800;
       color: var(--primary);
       letter-spacing: -0.02em;
-      margin-bottom: 0.35rem;
+      margin-bottom: 0.3rem;
     }
 
     .kpi-footer {
@@ -395,6 +482,8 @@
       margin-bottom: 1.25rem;
       border-bottom: 1px solid #f1f5f9;
       padding-bottom: 0.75rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
 
     .card-title h3 {
@@ -413,6 +502,64 @@
       position: relative;
       width: 100%;
       height: 290px;
+    }
+
+    .chart-interactive-hint {
+      font-size: 0.725rem;
+      color: #94a3b8;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      background: #f8fafc;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      border: 1px solid #e2e8f0;
+    }
+
+    /* TOGGLE BUTTONS (PILLS) */
+    .toggle-group {
+      display: inline-flex;
+      background: #f1f5f9;
+      border-radius: var(--radius-sm);
+      padding: 2px;
+      border: 1px solid #cbd5e1;
+    }
+
+    .toggle-btn {
+      padding: 0.35rem 0.75rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .toggle-btn.active {
+      background: #ffffff;
+      color: var(--accent);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    /* INPUT BUSCADOR */
+    .search-input {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius-sm);
+      padding: 0.4rem 0.75rem;
+      font-size: 0.825rem;
+      color: var(--text);
+      outline: none;
+      min-width: 220px;
+      transition: all 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent);
+      background: #ffffff;
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
     }
 
     /* TABLES */
@@ -498,6 +645,35 @@
       transition: width 0.4s ease;
     }
 
+    /* SLIDER WHAT-IF */
+    .simulator-box {
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      border: 1px dashed #94a3b8;
+      border-radius: var(--radius-sm);
+      padding: 1.1rem 1.4rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .slider-input {
+      flex: 1;
+      min-width: 200px;
+      height: 6px;
+      border-radius: 5px;
+      background: #cbd5e1;
+      outline: none;
+      cursor: pointer;
+    }
+
     /* FOOTER */
     footer {
       background: #ffffff;
@@ -509,7 +685,7 @@
     }
 
     .footer-container {
-      max-width: 1400px;
+      max-width: 1440px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
@@ -602,12 +778,73 @@
     </div>
   </header>
 
+  <!-- BARRA DE FILTROS DINÁMICOS SUPERIOR -->
+  <div class="filter-bar">
+    <div class="filter-container">
+      <div class="filter-group">
+        <span class="filter-label">🔍 Filtros:</span>
+        
+        <!-- Filtro Período -->
+        <select id="filtroPeriodo" class="filter-select" onchange="aplicarFiltros()">
+          <option value="evaluacion">Período: Ene - Feb (Metas)</option>
+          <option value="todos">Período: Trimestre Q1 (Ene - Mar)</option>
+          <option value="1">Solo Enero</option>
+          <option value="2">Solo Febrero</option>
+          <option value="3">Solo Marzo (Calidad)</option>
+        </select>
+
+        <!-- Filtro Tienda -->
+        <select id="filtroTienda" class="filter-select" onchange="aplicarFiltros()">
+          <option value="TODAS">Tienda: Todas (6)</option>
+          <option value="T01">T01 - COTEP Centro</option>
+          <option value="T02">T02 - COTEP San Isidro</option>
+          <option value="T03">T03 - COTEP Miraflores</option>
+          <option value="T04">T04 - COTEP San Miguel</option>
+          <option value="T05">T05 - COTEP Los Olivos</option>
+          <option value="T06">T06 - COTEP Surco</option>
+        </select>
+
+        <!-- Filtro Categoría -->
+        <select id="filtroCategoria" class="filter-select" onchange="aplicarFiltros()">
+          <option value="TODAS">Categoría: Todas</option>
+          <option value="LAPTOPS">Laptops</option>
+          <option value="MONITORES">Monitores</option>
+          <option value="IMPRESORAS">Impresoras</option>
+          <option value="COMPONENTES">Componentes</option>
+          <option value="ACCESORIOS">Accesorios</option>
+        </select>
+
+        <!-- Filtro Canal -->
+        <select id="filtroCanal" class="filter-select" onchange="aplicarFiltros()">
+          <option value="TODOS">Canal: Todos</option>
+          <option value="3">Venta Corporativa</option>
+          <option value="1">Tienda Física</option>
+          <option value="2">E-Commerce</option>
+        </select>
+
+        <!-- Filtro Segmento -->
+        <select id="filtroSegmento" class="filter-select" onchange="aplicarFiltros()">
+          <option value="TODOS">Segmento: Todos</option>
+          <option value="CORPORATIVO">Corporativo</option>
+          <option value="PERSONA">Persona</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <span id="contadorFiltros" class="filter-active-pill" style="display:none;">0 activos</span>
+        <button class="btn-reset" onclick="restablecerFiltros()">
+          <span>↺</span> Restablecer Filtros
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- PESTAÑAS DE NAVEGACIÓN -->
   <nav class="tabs-nav">
     <div class="tabs-container">
       <button class="tab-btn active" onclick="cambiarPestana('tab-resumen', this)">
         <span>📈 Resumen Ejecutivo</span>
-        <span class="tab-badge">KPIs</span>
+        <span class="tab-badge" id="badgeVentasResumen">S/ 63.5k</span>
       </button>
       <button class="tab-btn" onclick="cambiarPestana('tab-tiendas', this)">
         <span>🏪 Análisis de Tiendas y Metas</span>
@@ -628,16 +865,16 @@
     <!-- ======================================================== -->
     <section id="tab-resumen" class="tab-content active">
 
-      <!-- TARJETAS DE KPIS PRINCIPALES -->
+      <!-- TARJETAS DE KPIS PRINCIPALES (RECALCULADAS DINÁMICAMENTE) -->
       <div class="kpi-grid">
         <div class="kpi-card kpi-info">
           <div class="kpi-header">
-            <span class="kpi-title">Ventas Totales (Ene - Feb)</span>
+            <span class="kpi-title">Ventas Totales</span>
             <div class="kpi-icon">💰</div>
           </div>
-          <div class="kpi-value">S/ 63,500</div>
+          <div class="kpi-value" id="kpiVentas">S/ 63,500</div>
           <div class="kpi-footer">
-            <span>Evaluación bimestral con metas oficiales</span>
+            <span id="kpiVentasSub">Evaluación bimestral con metas oficiales</span>
           </div>
         </div>
 
@@ -646,42 +883,44 @@
             <span class="kpi-title">Unidades Vendidas</span>
             <div class="kpi-icon">📦</div>
           </div>
-          <div class="kpi-value">50 und</div>
+          <div class="kpi-value" id="kpiUnidades">50 und</div>
           <div class="kpi-footer">
-            <span>25 und en Enero · 25 und en Febrero</span>
+            <span id="kpiUnidadesSub">25 und en Enero · 25 und en Febrero</span>
           </div>
         </div>
 
         <div class="kpi-card kpi-warning">
           <div class="kpi-header">
-            <span class="kpi-title">Transacciones Registradas</span>
+            <span class="kpi-title">Transacciones</span>
             <div class="kpi-icon">🧾</div>
           </div>
-          <div class="kpi-value">18 ventas</div>
+          <div class="kpi-value" id="kpiTransacciones">18 ventas</div>
           <div class="kpi-footer">
-            <span>10 en Enero · 8 en Febrero</span>
+            <span id="kpiTransaccionesSub">10 en Enero · 8 en Febrero</span>
           </div>
         </div>
 
-        <div class="kpi-card kpi-danger">
+        <div class="kpi-card kpi-danger" id="kpiVariacionCard">
           <div class="kpi-header">
-            <span class="kpi-title">Variación Mensual Facturación</span>
-            <div class="kpi-icon">📉</div>
+            <span class="kpi-title" id="kpiVariacionTitle">Ticket Promedio</span>
+            <div class="kpi-icon">📊</div>
           </div>
-          <div class="kpi-value">-10.02%</div>
+          <div class="kpi-value" id="kpiTicketPromedio">S/ 3,527.78</div>
           <div class="kpi-footer">
-            <span class="kpi-diff diff-down">▼ S/ 3,350 menos</span>
-            <span>Enero (S/ 33,425) → Feb (S/ 30,075)</span>
+            <span class="kpi-diff diff-down" id="kpiVariacionBadge">▼ -10.02%</span>
+            <span id="kpiVariacionSub">Ene (S/ 33,425) → Feb (S/ 30,075)</span>
           </div>
         </div>
       </div>
 
-      <!-- NOTA DE RESUMEN ANALÍTICO -->
-      <div class="alert alert-info">
+      <!-- NOTA DE RESUMEN ANALÍTICO DINÁMICA -->
+      <div class="alert alert-info" id="alertDinamicaResumen">
         <div class="alert-icon">💡</div>
         <div class="alert-content">
-          <strong>Diagnóstico Ejecutivo Bimestral:</strong>
-          Durante enero y febrero de 2026, la facturación comercial experimentó una contracción del <strong>10.02%</strong>. Existe una alta concentración de ingresos en el segmento corporativo (86.7%) y en la línea de laptops (71.7%), mientras que el canal <em>E-Commerce</em> no registró movimiento en el período.
+          <strong>Diagnóstico Ejecutivo Comercial:</strong>
+          <span id="textoDinamicoResumen">
+            Durante enero y febrero de 2026, la facturación comercial experimentó una contracción del <strong>10.02%</strong>. Existe una alta concentración de ingresos en el segmento corporativo (86.7%) y en la línea de laptops (71.7%), mientras que el canal <em>E-Commerce</em> no registró movimiento en el período.
+          </span>
         </div>
       </div>
 
@@ -692,8 +931,9 @@
           <div class="card-header">
             <div class="card-title">
               <h3>Ventas Mensuales (S/)</h3>
-              <p>Comparativo mensual de facturación</p>
+              <p>Comparativo según filtros activos</p>
             </div>
+            <span class="chart-interactive-hint">📊 Interactivo</span>
           </div>
           <div class="chart-container">
             <canvas id="chartVentasMes"></canvas>
@@ -705,8 +945,9 @@
           <div class="card-header">
             <div class="card-title">
               <h3>Ventas por Categoría</h3>
-              <p>Participación monetaria por línea de producto</p>
+              <p>Clic en una rebanada para filtrar</p>
             </div>
+            <span class="chart-interactive-hint">🖱️ Cross-filter</span>
           </div>
           <div class="chart-container">
             <canvas id="chartCategorias"></canvas>
@@ -718,8 +959,9 @@
           <div class="card-header">
             <div class="card-title">
               <h3>Ventas por Canal</h3>
-              <p>Distribución de ingresos por canal comercial</p>
+              <p>Distribución de ingresos por canal</p>
             </div>
+            <span class="chart-interactive-hint">🖱️ Cross-filter</span>
           </div>
           <div class="chart-container">
             <canvas id="chartCanales"></canvas>
@@ -727,12 +969,12 @@
         </div>
       </div>
 
-      <!-- TABLA RESUMEN POR CATEGORÍAS -->
+      <!-- TABLA RESUMEN POR CATEGORÍAS RECALCULADA EN VIVO -->
       <div class="card">
         <div class="card-header">
           <div class="card-title">
-            <h3>Detalle Consolidado por Línea de Negocio (Ene - Feb 2026)</h3>
-            <p>Volumen físico vs monetario por categoría</p>
+            <h3>Detalle Dinámico por Línea de Negocio</h3>
+            <p>Volumen físico vs monetario según la selección actual</p>
           </div>
         </div>
         <div class="table-responsive">
@@ -746,52 +988,8 @@
                 <th>Participación Visual</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td><strong>💻 LAPTOPS</strong></td>
-                <td class="text-center font-mono">15</td>
-                <td class="text-right font-mono font-bold">S/ 45,500.00</td>
-                <td class="text-right font-mono">71.65%</td>
-                <td>
-                  <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 71.65%; background: #2563eb;"></div></div>
-                </td>
-              </tr>
-              <tr>
-                <td><strong>🖥️ MONITORES</strong></td>
-                <td class="text-center font-mono">12</td>
-                <td class="text-right font-mono">S/ 11,400.00</td>
-                <td class="text-right font-mono">17.95%</td>
-                <td>
-                  <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 17.95%; background: #0ea5e9;"></div></div>
-                </td>
-              </tr>
-              <tr>
-                <td><strong>🖨️ IMPRESORAS</strong></td>
-                <td class="text-center font-mono">4</td>
-                <td class="text-right font-mono">S/ 3,120.00</td>
-                <td class="text-right font-mono">4.91%</td>
-                <td>
-                  <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 4.91%; background: #10b981;"></div></div>
-                </td>
-              </tr>
-              <tr>
-                <td><strong>🔌 COMPONENTES</strong></td>
-                <td class="text-center font-mono">9</td>
-                <td class="text-right font-mono">S/ 2,800.00</td>
-                <td class="text-right font-mono">4.41%</td>
-                <td>
-                  <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 4.41%; background: #8b5cf6;"></div></div>
-                </td>
-              </tr>
-              <tr>
-                <td><strong>🖱️ ACCESORIOS</strong></td>
-                <td class="text-center font-mono">10</td>
-                <td class="text-right font-mono">S/ 680.00</td>
-                <td class="text-right font-mono">1.07%</td>
-                <td>
-                  <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 1.07%; background: #f59e0b;"></div></div>
-                </td>
-              </tr>
+            <tbody id="tbodyCategorias">
+              <!-- Render dinámico -->
             </tbody>
           </table>
         </div>
@@ -804,15 +1002,33 @@
     <section id="tab-tiendas" class="tab-content">
       
       <!-- ALERTA CRÍTICA DESTACADA -->
-      <div class="alert alert-danger">
+      <div class="alert alert-danger" id="alertaTiendas">
         <div class="alert-icon">⚠️</div>
         <div class="alert-content">
           <strong>Alerta Crítica de Cumplimiento Comercial:</strong>
           <ul>
-            <li><strong>Ninguna tienda de COTEP S.A.C. alcanzó el 100% de su meta comercial</strong> en enero ni en febrero de 2026.</li>
-            <li><strong>COTEP Surco (T06) registra 0.00% de cumplimiento</strong> en ambos meses: S/ 0 en ventas frente a una meta bimestral de S/ 57,000. Requiere auditoría operativa inmediata.</li>
-            <li>La tienda con mayor rendimiento acumulado fue <strong>COTEP Centro (T01)</strong> con <strong>54.61%</strong> (S/ 37,680 vendidos vs S/ 69,000 proyectados).</li>
+            <li><strong>Ninguna tienda de COTEP S.A.C. alcanzó el 100% de su meta comercial</strong> en el período evaluado.</li>
+            <li><strong>COTEP Surco (T06) registra 0.00% de cumplimiento</strong>: S/ 0 en ventas frente a una meta bimestral de S/ 57,000. Requiere auditoría operativa inmediata.</li>
+            <li>La tienda líder fue <strong>COTEP Centro (T01)</strong> con <strong>54.61%</strong> acumulado (S/ 37,680 vendidos vs S/ 69,000 de meta).</li>
           </ul>
+        </div>
+      </div>
+
+      <!-- SIMULADOR WHAT-IF (ESCENARIO DE RECUPERACIÓN PARA SURCO) -->
+      <div class="simulator-box">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+          <span style="font-size: 0.9rem; font-weight: 700; color: #1e293b;">
+            🔮 Simulador What-If: "¿Qué pasaría si COTEP Surco (T06) hubiera vendido parte de su meta?"
+          </span>
+          <span id="valorSimulador" style="font-size: 0.85rem; font-weight: 800; color: var(--accent); background: #dbeafe; padding: 0.2rem 0.6rem; border-radius: 9999px;">
+            Simulado: 0% de meta (S/ 0)
+          </span>
+        </div>
+        <div class="slider-container">
+          <input type="range" min="0" max="100" step="5" value="0" id="sliderSurco" class="slider-input" oninput="simularSurco(this.value)">
+          <span style="font-size: 0.8rem; color: #64748b; white-space: nowrap;">
+            Impacto estimado en ventas globales: <strong id="impactoSimulador" style="color: var(--success); font-family: monospace;">+S/ 0.00</strong>
+          </span>
         </div>
       </div>
 
@@ -820,7 +1036,7 @@
       <div class="card" style="margin-bottom: 1.5rem;">
         <div class="card-header">
           <div class="card-title">
-            <h3>Cumplimiento de Metas: Venta Real vs Meta Comercial (Bimestral)</h3>
+            <h3>Cumplimiento de Metas: Venta Real vs Meta Comercial</h3>
             <p>Comparación por punto de venta en Soles (S/)</p>
           </div>
         </div>
@@ -835,7 +1051,7 @@
           <div class="card-header">
             <div class="card-title">
               <h3>🚨 Ranking de Tiendas: Prioridad de Atención</h3>
-              <p>Ordenadas de menor a mayor cumplimiento bimestral</p>
+              <p>Ordenadas dinámicamente de menor a mayor cumplimiento</p>
             </div>
           </div>
           <div class="table-responsive">
@@ -849,49 +1065,8 @@
                   <th>Semáforo</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr style="background-color: #fff1f2;">
-                  <td><strong>#1 Crítica</strong></td>
-                  <td><strong>COTEP Surco (T06)</strong></td>
-                  <td>Sur</td>
-                  <td class="text-right font-mono font-bold" style="color: #dc2626;">0.00%</td>
-                  <td><span class="pill pill-danger">Sin Ventas</span></td>
-                </tr>
-                <tr>
-                  <td><strong>#2 Urgente</strong></td>
-                  <td>COTEP Miraflores (T03)</td>
-                  <td>Sur</td>
-                  <td class="text-right font-mono" style="color: #dc2626;">2.18%</td>
-                  <td><span class="pill pill-danger">Crítico</span></td>
-                </tr>
-                <tr>
-                  <td><strong>#3 Atención</strong></td>
-                  <td>COTEP San Miguel (T04)</td>
-                  <td>Oeste</td>
-                  <td class="text-right font-mono" style="color: #dc2626;">5.75%</td>
-                  <td><span class="pill pill-danger">Crítico</span></td>
-                </tr>
-                <tr>
-                  <td><strong>#4 Atención</strong></td>
-                  <td>COTEP Los Olivos (T05)</td>
-                  <td>Norte</td>
-                  <td class="text-right font-mono" style="color: #dc2626;">6.94%</td>
-                  <td><span class="pill pill-danger">Crítico</span></td>
-                </tr>
-                <tr>
-                  <td><strong>#5 Seguimiento</strong></td>
-                  <td>COTEP San Isidro (T02)</td>
-                  <td>Centro</td>
-                  <td class="text-right font-mono" style="color: #d97706;">25.96%</td>
-                  <td><span class="pill pill-warning">Bajo</span></td>
-                </tr>
-                <tr style="background-color: #f0fdf4;">
-                  <td><strong>#6 Líder</strong></td>
-                  <td><strong>COTEP Centro (T01)</strong></td>
-                  <td>Centro</td>
-                  <td class="text-right font-mono font-bold" style="color: #15803d;">54.61%</td>
-                  <td><span class="pill pill-success">Regular / Mejor</span></td>
-                </tr>
+              <tbody id="tbodyRankingTiendas">
+                <!-- Render dinámico -->
               </tbody>
             </table>
           </div>
@@ -901,8 +1076,8 @@
         <div class="card">
           <div class="card-header">
             <div class="card-title">
-              <h3>Tasa de Cumplimiento Bimestral (%)</h3>
-              <p>Porcentaje alcanzado respecto al 100% de la meta</p>
+              <h3>Tasa de Cumplimiento (%)</h3>
+              <p>Porcentaje alcanzado respecto a la meta</p>
             </div>
           </div>
           <div class="chart-container">
@@ -915,8 +1090,8 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title">
-            <h3>Matriz Detallada de Metas y Ventas por Mes</h3>
-            <p>Enero y Febrero 2026 desagregado por punto de venta</p>
+            <h3>Matriz Detallada de Metas y Ventas</h3>
+            <p>Desagregado por punto de venta y mes</p>
           </div>
         </div>
         <div class="table-responsive">
@@ -934,142 +1109,8 @@
                 <th>Estado</th>
               </tr>
             </thead>
-            <tbody>
-              <!-- ENERO -->
-              <tr>
-                <td><strong>Enero</strong></td>
-                <td class="font-mono">T01</td>
-                <td>COTEP Centro</td>
-                <td>Cercado de Lima</td>
-                <td class="text-right font-mono">S/ 35,000</td>
-                <td class="text-right font-mono font-bold">S/ 16,780</td>
-                <td class="text-right font-mono" style="color: #dc2626;">-S/ 18,220</td>
-                <td class="text-center font-mono font-bold">47.94%</td>
-                <td><span class="pill pill-warning">Bajo</span></td>
-              </tr>
-              <tr>
-                <td><strong>Enero</strong></td>
-                <td class="font-mono">T02</td>
-                <td>COTEP San Isidro</td>
-                <td>San Isidro</td>
-                <td class="text-right font-mono">S/ 32,000</td>
-                <td class="text-right font-mono font-bold">S/ 10,840</td>
-                <td class="text-right font-mono" style="color: #dc2626;">-S/ 21,160</td>
-                <td class="text-center font-mono">33.88%</td>
-                <td><span class="pill pill-warning">Bajo</span></td>
-              </tr>
-              <tr>
-                <td><strong>Enero</strong></td>
-                <td class="font-mono">T05</td>
-                <td>COTEP Los Olivos</td>
-                <td>Los Olivos</td>
-                <td class="text-right font-mono">S/ 25,000</td>
-                <td class="text-right font-mono">S/ 2,900</td>
-                <td class="text-right font-mono" style="color: #dc2626;">-S/ 22,100</td>
-                <td class="text-center font-mono">11.60%</td>
-                <td><span class="pill pill-danger">Crítico</span></td>
-              </tr>
-              <tr>
-                <td><strong>Enero</strong></td>
-                <td class="font-mono">T04</td>
-                <td>COTEP San Miguel</td>
-                <td>San Miguel</td>
-                <td class="text-right font-mono">S/ 30,000</td>
-                <td class="text-right font-mono">S/ 2,550</td>
-                <td class="text-right font-mono" style="color: #dc2626;">-S/ 27,450</td>
-                <td class="text-center font-mono">8.50%</td>
-                <td><span class="pill pill-danger">Crítico</span></td>
-              </tr>
-              <tr>
-                <td><strong>Enero</strong></td>
-                <td class="font-mono">T03</td>
-                <td>COTEP Miraflores</td>
-                <td>Miraflores</td>
-                <td class="text-right font-mono">S/ 28,000</td>
-                <td class="text-right font-mono">S/ 355</td>
-                <td class="text-right font-mono" style="color: #dc2626;">-S/ 27,645</td>
-                <td class="text-center font-mono">1.27%</td>
-                <td><span class="pill pill-danger">Crítico</span></td>
-              </tr>
-              <tr style="background-color: #fff1f2;">
-                <td><strong>Enero</strong></td>
-                <td class="font-mono">T06</td>
-                <td>COTEP Surco</td>
-                <td>Santiago de Surco</td>
-                <td class="text-right font-mono">S/ 27,000</td>
-                <td class="text-right font-mono">S/ 0</td>
-                <td class="text-right font-mono" style="color: #dc2626;">-S/ 27,000</td>
-                <td class="text-center font-mono font-bold" style="color: #dc2626;">0.00%</td>
-                <td><span class="pill pill-danger">Sin Ventas</span></td>
-              </tr>
-
-              <!-- FEBRERO -->
-              <tr>
-                <td><strong>Febrero</strong></td>
-                <td class="font-mono">T01</td>
-                <td>COTEP Centro</td>
-                <td>Cercado de Lima</td>
-                <td class="text-right font-mono">S/ 34,000</td>
-                <td class="text-right font-mono font-bold">S/ 20,900</td>
-                <td class="text-right font-mono" style="color: #dc2626;">-S/ 13,100</td>
-                <td class="text-center font-mono font-bold" style="color: #15803d;">61.47%</td>
-                <td><span class="pill pill-success">Regular</span></td>
-              </tr>
-              <tr>
-                <td><strong>Febrero</strong></td>
-                <td class="font-mono">T02</td>
-                <td>COTEP San Isidro</td>
-                <td>San Isidro</td>
-                <td class="text-right font-mono">S/ 35,000</td>
-                <td class="text-right font-mono font-bold">S/ 6,550</td>
-                <td class="text-right font-mono" style="color: #dc2626;">-S/ 28,450</td>
-                <td class="text-center font-mono">18.71%</td>
-                <td><span class="pill pill-danger">Crítico</span></td>
-              </tr>
-              <tr>
-                <td><strong>Febrero</strong></td>
-                <td class="font-mono">T04</td>
-                <td>COTEP San Miguel</td>
-                <td>San Miguel</td>
-                <td class="text-right font-mono">S/ 31,000</td>
-                <td class="text-right font-mono">S/ 960</td>
-                <td class="text-right font-mono" style="color: #dc2626;">-S/ 30,040</td>
-                <td class="text-center font-mono">3.10%</td>
-                <td><span class="pill pill-danger">Crítico</span></td>
-              </tr>
-              <tr>
-                <td><strong>Febrero</strong></td>
-                <td class="font-mono">T03</td>
-                <td>COTEP Miraflores</td>
-                <td>Miraflores</td>
-                <td class="text-right font-mono">S/ 29,000</td>
-                <td class="text-right font-mono">S/ 885</td>
-                <td class="text-right font-mono" style="color: #dc2626;">-S/ 28,115</td>
-                <td class="text-center font-mono">3.05%</td>
-                <td><span class="pill pill-danger">Crítico</span></td>
-              </tr>
-              <tr>
-                <td><strong>Febrero</strong></td>
-                <td class="font-mono">T05</td>
-                <td>COTEP Los Olivos</td>
-                <td>Los Olivos</td>
-                <td class="text-right font-mono">S/ 28,000</td>
-                <td class="text-right font-mono">S/ 780</td>
-                <td class="text-right font-mono" style="color: #dc2626;">-S/ 27,220</td>
-                <td class="text-center font-mono">2.79%</td>
-                <td><span class="pill pill-danger">Crítico</span></td>
-              </tr>
-              <tr style="background-color: #fff1f2;">
-                <td><strong>Febrero</strong></td>
-                <td class="font-mono">T06</td>
-                <td>COTEP Surco</td>
-                <td>Santiago de Surco</td>
-                <td class="text-right font-mono">S/ 30,000</td>
-                <td class="text-right font-mono">S/ 0</td>
-                <td class="text-right font-mono" style="color: #dc2626;">-S/ 30,000</td>
-                <td class="text-center font-mono font-bold" style="color: #dc2626;">0.00%</td>
-                <td><span class="pill pill-danger">Sin Ventas</span></td>
-              </tr>
+            <tbody id="tbodyMatrizMetas">
+              <!-- Render dinámico -->
             </tbody>
           </table>
         </div>
@@ -1090,53 +1131,31 @@
         </div>
       </div>
 
-      <!-- COMPARATIVO TOP 5 CLIENTES -->
-      <div class="grid-2">
-        <!-- Top 5 por Unidades -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">
-              <h3>Top 5 Clientes por Unidades Compradas</h3>
-              <p>Volumen físico adquirido (Ene - Feb)</p>
+      <!-- COMPARATIVO TOP 5 CLIENTES CON CONTROL INTERACTIVO -->
+      <div class="card" style="margin-bottom: 1.5rem;">
+        <div class="card-header">
+          <div class="card-title">
+            <h3>Análisis Dinámico de Clientes: Top Rankings</h3>
+            <p>Alterna entre criterio monetario o volumen físico</p>
+          </div>
+          <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+            <!-- Buscador en tiempo real -->
+            <input type="text" id="buscadorClientes" class="search-input" placeholder="🔍 Buscar cliente..." oninput="filtrarClientesEnTabla(this.value)">
+            <!-- Toggle Monto / Unidades -->
+            <div class="toggle-group">
+              <button id="toggleMonto" class="toggle-btn active" onclick="cambiarCriterioClientes('monto')">💵 Por Monto (S/)</button>
+              <button id="toggleUnidades" class="toggle-btn" onclick="cambiarCriterioClientes('unidades')">📦 Por Unidades</button>
             </div>
-          </div>
-          <div class="chart-container">
-            <canvas id="chartTopClientesUnidades"></canvas>
-          </div>
-          <div class="table-responsive" style="margin-top: 1rem;">
-            <table>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Cliente</th>
-                  <th>Segmento</th>
-                  <th class="text-center">Unidades</th>
-                  <th class="text-right">Monto (S/)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td>1</td><td><strong>Tecnología Global SAC</strong></td><td><span class="pill pill-success">CORPORATIVO</span></td><td class="text-center font-mono font-bold">9</td><td class="text-right font-mono">S/ 12,750</td></tr>
-                <tr><td>2</td><td><strong>Grupo Alpha SAC</strong></td><td><span class="pill pill-success">CORPORATIVO</span></td><td class="text-center font-mono font-bold">8</td><td class="text-right font-mono">S/ 24,800</td></tr>
-                <tr><td>3</td><td><strong>Servicios Integrales SAC</strong></td><td><span class="pill pill-success">CORPORATIVO</span></td><td class="text-center font-mono font-bold">8</td><td class="text-right font-mono">S/ 12,880</td></tr>
-                <tr><td>4</td><td>Juan Pérez García</td><td><span class="pill pill-warning">PERSONA</span></td><td class="text-center font-mono">7</td><td class="text-right font-mono">S/ 2,790</td></tr>
-                <tr><td>5</td><td>María López Torres</td><td><span class="pill pill-warning">PERSONA</span></td><td class="text-center font-mono">6</td><td class="text-right font-mono">S/ 1,175</td></tr>
-              </tbody>
-            </table>
           </div>
         </div>
 
-        <!-- Top 5 por Monto Facturado -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">
-              <h3>Top 5 Clientes por Monto Facturado (S/)</h3>
-              <p>Contribución al flujo de ingresos (Ene - Feb)</p>
-            </div>
+        <div class="grid-2">
+          <!-- Gráfico Top Clientes -->
+          <div class="chart-container" style="height: 310px;">
+            <canvas id="chartTopClientesDin"></canvas>
           </div>
-          <div class="chart-container">
-            <canvas id="chartTopClientesMonto"></canvas>
-          </div>
-          <div class="table-responsive" style="margin-top: 1rem;">
+          <!-- Tabla Top Clientes -->
+          <div class="table-responsive">
             <table>
               <thead>
                 <tr>
@@ -1144,15 +1163,11 @@
                   <th>Cliente</th>
                   <th>Segmento</th>
                   <th class="text-right">Monto Total</th>
-                  <th class="text-center">Unid.</th>
+                  <th class="text-center">Unidades</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr style="background-color: #f0fdf4;"><td>1</td><td><strong>Grupo Alpha SAC</strong></td><td><span class="pill pill-success">CORPORATIVO</span></td><td class="text-right font-mono font-bold" style="color: #15803d;">S/ 24,800</td><td class="text-center font-mono">8</td></tr>
-                <tr><td>2</td><td><strong>Servicios Integrales SAC</strong></td><td><span class="pill pill-success">CORPORATIVO</span></td><td class="text-right font-mono font-bold">S/ 12,880</td><td class="text-center font-mono">8</td></tr>
-                <tr><td>3</td><td><strong>Tecnología Global SAC</strong></td><td><span class="pill pill-success">CORPORATIVO</span></td><td class="text-right font-mono font-bold">S/ 12,750</td><td class="text-center font-mono">9</td></tr>
-                <tr><td>4</td><td>Soluciones Digitales SAC</td><td><span class="pill pill-success">CORPORATIVO</span></td><td class="text-right font-mono">S/ 4,640</td><td class="text-center font-mono">5</td></tr>
-                <tr><td>5</td><td>Carlos Ramírez Soto</td><td><span class="pill pill-warning">PERSONA</span></td><td class="text-right font-mono">S/ 3,680</td><td class="text-center font-mono">2</td></tr>
+              <tbody id="tbodyTopClientes">
+                <!-- Render dinámico -->
               </tbody>
             </table>
           </div>
@@ -1160,27 +1175,28 @@
       </div>
 
       <!-- SECCIÓN DE PRODUCTOS -->
-      <div class="grid-2" style="margin-top: 1.5rem;">
+      <div class="grid-2">
         <!-- Gráfico Top Productos Unidades -->
         <div class="card">
           <div class="card-header">
             <div class="card-title">
-              <h3>Top Productos más Vendidos por Unidades</h3>
-              <p>Laptop Lenovo IdeaPad lidera el portafolio comercial</p>
+              <h3>Top Productos más Vendidos</h3>
+              <p>Por unidades adquiridas en el período</p>
             </div>
           </div>
-          <div class="chart-container" style="height: 330px;">
+          <div class="chart-container" style="height: 340px;">
             <canvas id="chartTopProductos"></canvas>
           </div>
         </div>
 
-        <!-- Matriz de Productos -->
+        <!-- Matriz de Productos con buscador -->
         <div class="card">
           <div class="card-header">
             <div class="card-title">
-              <h3>Catálogo de Productos y Desempeño Comercial</h3>
+              <h3>Catálogo de Productos y Desempeño</h3>
               <p>Detalle por código, categoría y facturación acumulada</p>
             </div>
+            <input type="text" id="buscadorProductos" class="search-input" placeholder="🔍 Buscar producto..." oninput="filtrarProductosEnTabla(this.value)">
           </div>
           <div class="table-responsive">
             <table>
@@ -1193,77 +1209,8 @@
                   <th class="text-right">Venta Total (S/)</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td class="font-mono">P001</td>
-                  <td><strong>Laptop Lenovo IdeaPad</strong></td>
-                  <td>LAPTOPS</td>
-                  <td class="text-center font-mono font-bold">10</td>
-                  <td class="text-right font-mono font-bold">S/ 31,000</td>
-                </tr>
-                <tr>
-                  <td class="font-mono">P002</td>
-                  <td>Laptop HP 14</td>
-                  <td>LAPTOPS</td>
-                  <td class="text-center font-mono">5</td>
-                  <td class="text-right font-mono">S/ 14,500</td>
-                </tr>
-                <tr>
-                  <td class="font-mono">P003</td>
-                  <td>Monitor Samsung 24</td>
-                  <td>MONITORES</td>
-                  <td class="text-center font-mono">8</td>
-                  <td class="text-right font-mono">S/ 6,800</td>
-                </tr>
-                <tr>
-                  <td class="font-mono">P004</td>
-                  <td>Monitor LG 27</td>
-                  <td>MONITORES</td>
-                  <td class="text-center font-mono">4</td>
-                  <td class="text-right font-mono">S/ 4,600</td>
-                </tr>
-                <tr>
-                  <td class="font-mono">P007</td>
-                  <td>Impresora Epson L3250</td>
-                  <td>IMPRESORAS</td>
-                  <td class="text-center font-mono">4</td>
-                  <td class="text-right font-mono">S/ 3,120</td>
-                </tr>
-                <tr>
-                  <td class="font-mono">P008</td>
-                  <td>Disco SSD Kingston 1TB</td>
-                  <td>COMPONENTES</td>
-                  <td class="text-center font-mono">7</td>
-                  <td class="text-right font-mono">S/ 2,240</td>
-                </tr>
-                <tr>
-                  <td class="font-mono">P009</td>
-                  <td>Memoria RAM 16GB</td>
-                  <td>COMPONENTES</td>
-                  <td class="text-center font-mono">2</td>
-                  <td class="text-right font-mono">S/ 560</td>
-                </tr>
-                <tr>
-                  <td class="font-mono">P005</td>
-                  <td>Mouse Logitech M185</td>
-                  <td>ACCESORIOS</td>
-                  <td class="text-center font-mono">7</td>
-                  <td class="text-right font-mono">S/ 455</td>
-                </tr>
-                <tr>
-                  <td class="font-mono">P006</td>
-                  <td>Teclado Logitech K120</td>
-                  <td>ACCESORIOS</td>
-                  <td class="text-center font-mono">3</td>
-                  <td class="text-right font-mono">S/ 225</td>
-                </tr>
-                <tr style="color: #94a3b8;">
-                  <td class="font-mono">P010</td>
-                  <td>Webcam Logitech C920</td>
-                  <td>ACCESORIOS</td>
-                  <td class="text-center font-mono">0</td>
-                  <td class="text-right font-mono">S/ 0</td>
-                </tr>
+              <tbody id="tbodyProductos">
+                <!-- Render dinámico -->
               </tbody>
             </table>
           </div>
@@ -1294,7 +1241,7 @@
         <button class="btn-secondary" onclick="cerrarModalModelo()" style="padding: 0.25rem 0.6rem;">✕</button>
       </div>
       <div class="modal-body">
-        <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;" id="tablasSelector">
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
           <button class="btn-secondary" onclick="mostrarTabla('FACT_VENTAS')">FACT_VENTAS (23)</button>
           <button class="btn-secondary" onclick="mostrarTabla('DIM_PRODUCTO')">DIM_PRODUCTO (10)</button>
           <button class="btn-secondary" onclick="mostrarTabla('DIM_CLIENTE')">DIM_CLIENTE (8)</button>
@@ -1309,8 +1256,76 @@
     </div>
   </div>
 
-  <!-- LÓGICA JAVASCRIPT Y CHART.JS -->
+  <!-- LÓGICA DINÁMICA JAVASCRIPT Y CHART.JS -->
   <script>
+    // -------------------------------------------------------------
+    // ENRIQUECIMIENTO Y DESNORMALIZACIÓN EN MEMORIA
+    // -------------------------------------------------------------
+    let datasetCompleto = [];
+    let mapaProductos = {};
+    let mapaClientes = {};
+    let mapaTiendas = {};
+    let mapaCanales = {};
+
+    // Estado global de filtros
+    let estadoFiltros = {
+      periodo: 'evaluacion', // 'evaluacion' (Ene-Feb), 'todos' (Ene-Mar), '1', '2', '3'
+      tienda: 'TODAS',
+      categoria: 'TODAS',
+      canal: 'TODOS',
+      segmento: 'TODOS',
+      criterioClientes: 'monto', // 'monto' o 'unidades'
+      busquedaCliente: '',
+      busquedaProducto: '',
+      simulacionSurcoPct: 0
+    };
+
+    // Instancias de Chart.js
+    let chartMesInstance = null;
+    let chartCatInstance = null;
+    let chartCanalInstance = null;
+    let chartMetasInstance = null;
+    let chartCumplInstance = null;
+    let chartTopCliInstance = null;
+    let chartTopProdInstance = null;
+
+    function inicializarDatos() {
+      if (typeof FACT_VENTAS === 'undefined') return;
+
+      DIM_PRODUCTO.forEach(p => mapaProductos[p.Cod_Producto] = p);
+      DIM_CLIENTE.forEach(c => mapaClientes[c.Cod_Cliente] = c);
+      DIM_TIENDA.forEach(t => mapaTiendas[t.Cod_Tienda] = t);
+      DIM_CANAL.forEach(c => mapaCanales[c.Cod_Canal] = c);
+
+      datasetCompleto = FACT_VENTAS.map(f => {
+        const prod = mapaProductos[f.Cod_Producto] || {};
+        const cli = mapaClientes[f.Cod_Cliente] || {};
+        const tie = mapaTiendas[f.Cod_Tienda] || {};
+        const can = mapaCanales[f.Cod_Canal] || {};
+        
+        const fechaObj = new Date(f.Fecha);
+        const mesNum = fechaObj.getMonth() + 1;
+        const nombreMes = mesNum === 1 ? 'Enero' : mesNum === 2 ? 'Febrero' : 'Marzo';
+
+        return {
+          ...f,
+          Mes_Num: mesNum,
+          Mes_Nombre: nombreMes,
+          Producto: prod.Producto || f.Cod_Producto,
+          Categoria: prod.Categoría || 'OTRO',
+          Marca: prod.Marca || '-',
+          Precio_Lista: prod.Precio_Lista || 0,
+          Cliente: cli.Cliente || f.Cod_Cliente,
+          Segmento: cli.Segmento || 'OTRO',
+          Ciudad: cli.Ciudad || 'Lima',
+          Tienda: tie.Tienda || f.Cod_Tienda,
+          Distrito: tie.Distrito || '-',
+          Zona: tie.Zona || '-',
+          Canal: can.Canal || 'OTRO'
+        };
+      });
+    }
+
     // -------------------------------------------------------------
     // GESTIÓN DE TABS (PESTAÑAS)
     // -------------------------------------------------------------
@@ -1322,8 +1337,10 @@
       if (target) target.classList.add('active');
       if (btn) btn.classList.add('active');
 
-      // Forzar redibujo de Chart.js al cambiar de tab para que ajuste dimensiones
-      window.dispatchEvent(new Event('resize'));
+      // Forzar redibujo de Chart.js al cambiar de tab
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+      }, 50);
     }
 
     // Formateador de moneda en Soles
@@ -1331,41 +1348,545 @@
       return 'S/ ' + Number(num).toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
+    function formatSolesEntero(num) {
+      return 'S/ ' + Math.round(Number(num)).toLocaleString('es-PE');
+    }
+
     // -------------------------------------------------------------
-    // INICIALIZACIÓN DE GRÁFICOS (CHART.JS)
+    // MOTOR DE FILTRADO Y ACTUALIZACIÓN DINÁMICA
+    // -------------------------------------------------------------
+    function obtenerDatosFiltrados() {
+      return datasetCompleto.filter(item => {
+        // Filtro Período
+        if (estadoFiltros.periodo === 'evaluacion' && item.Mes_Num > 2) return false;
+        if (estadoFiltros.periodo === '1' && item.Mes_Num !== 1) return false;
+        if (estadoFiltros.periodo === '2' && item.Mes_Num !== 2) return false;
+        if (estadoFiltros.periodo === '3' && item.Mes_Num !== 3) return false;
+
+        // Filtro Tienda
+        if (estadoFiltros.tienda !== 'TODAS' && item.Cod_Tienda !== estadoFiltros.tienda) return false;
+
+        // Filtro Categoría
+        if (estadoFiltros.categoria !== 'TODAS' && item.Categoria !== estadoFiltros.categoria) return false;
+
+        // Filtro Canal
+        if (estadoFiltros.canal !== 'TODOS' && String(item.Cod_Canal) !== String(estadoFiltros.canal)) return false;
+
+        // Filtro Segmento
+        if (estadoFiltros.segmento !== 'TODOS' && item.Segmento !== estadoFiltros.segmento) return false;
+
+        return true;
+      });
+    }
+
+    function aplicarFiltros() {
+      estadoFiltros.periodo = document.getElementById('filtroPeriodo').value;
+      estadoFiltros.tienda = document.getElementById('filtroTienda').value;
+      estadoFiltros.categoria = document.getElementById('filtroCategoria').value;
+      estadoFiltros.canal = document.getElementById('filtroCanal').value;
+      estadoFiltros.segmento = document.getElementById('filtroSegmento').value;
+
+      actualizarContadorFiltros();
+      renderizarDashboardCompleto();
+    }
+
+    function restablecerFiltros() {
+      document.getElementById('filtroPeriodo').value = 'evaluacion';
+      document.getElementById('filtroTienda').value = 'TODAS';
+      document.getElementById('filtroCategoria').value = 'TODAS';
+      document.getElementById('filtroCanal').value = 'TODOS';
+      document.getElementById('filtroSegmento').value = 'TODOS';
+      
+      document.getElementById('sliderSurco').value = 0;
+      estadoFiltros.simulacionSurcoPct = 0;
+      document.getElementById('valorSimulador').innerText = 'Simulado: 0% de meta (S/ 0)';
+      document.getElementById('impactoSimulador').innerText = '+S/ 0.00';
+
+      aplicarFiltros();
+    }
+
+    function actualizarContadorFiltros() {
+      let activos = 0;
+      if (estadoFiltros.periodo !== 'evaluacion') activos++;
+      if (estadoFiltros.tienda !== 'TODAS') activos++;
+      if (estadoFiltros.categoria !== 'TODAS') activos++;
+      if (estadoFiltros.canal !== 'TODOS') activos++;
+      if (estadoFiltros.segmento !== 'TODOS') activos++;
+
+      const contador = document.getElementById('contadorFiltros');
+      if (activos > 0) {
+        contador.style.display = 'inline-block';
+        contador.innerText = `${activos} filtro(s) activo(s)`;
+      } else {
+        contador.style.display = 'none';
+      }
+    }
+
+    // -------------------------------------------------------------
+    // RENDERIZADO COMPLETO DEL DASHBOARD
+    // -------------------------------------------------------------
+    function renderizarDashboardCompleto() {
+      const data = obtenerDatosFiltrados();
+
+      // 1. RECALCULAR KPIS
+      const totalVentas = data.reduce((acc, r) => acc + r.Importe, 0);
+      const totalUnidades = data.reduce((acc, r) => acc + r.Cantidad, 0);
+      const totalTransacciones = data.length;
+      const ticketPromedio = totalTransacciones > 0 ? (totalVentas / totalTransacciones) : 0;
+
+      document.getElementById('kpiVentas').innerText = formatSolesEntero(totalVentas);
+      document.getElementById('kpiUnidades').innerText = totalUnidades + ' und';
+      document.getElementById('kpiTransacciones').innerText = totalTransacciones + ' ventas';
+      document.getElementById('badgeVentasResumen').innerText = 'S/ ' + (totalVentas / 1000).toFixed(1) + 'k';
+
+      // KPI Variación / Subtítulos
+      const vEne = data.filter(d => d.Mes_Num === 1).reduce((acc, r) => acc + r.Importe, 0);
+      const vFeb = data.filter(d => d.Mes_Num === 2).reduce((acc, r) => acc + r.Importe, 0);
+      const vMar = data.filter(d => d.Mes_Num === 3).reduce((acc, r) => acc + r.Importe, 0);
+
+      const kpiVarTitle = document.getElementById('kpiVariacionTitle');
+      const kpiTicketVal = document.getElementById('kpiTicketPromedio');
+      const kpiVarBadge = document.getElementById('kpiVariacionBadge');
+      const kpiVarSub = document.getElementById('kpiVariacionSub');
+
+      if (estadoFiltros.periodo === 'evaluacion' && estadoFiltros.tienda === 'TODAS' && estadoFiltros.categoria === 'TODAS' && estadoFiltros.canal === 'TODOS' && estadoFiltros.segmento === 'TODOS') {
+        kpiVarTitle.innerText = 'Variación Mensual Facturación';
+        kpiTicketVal.innerText = '-10.02%';
+        kpiVarBadge.style.display = 'inline-flex';
+        kpiVarBadge.className = 'kpi-diff diff-down';
+        kpiVarBadge.innerText = '▼ -S/ 3,350';
+        kpiVarSub.innerText = 'Ene (S/ 33,425) → Feb (S/ 30,075)';
+      } else {
+        kpiVarTitle.innerText = 'Ticket Promedio';
+        kpiTicketVal.innerText = formatSoles(ticketPromedio);
+        kpiVarBadge.style.display = 'inline-flex';
+        kpiVarBadge.className = 'kpi-diff';
+        kpiVarBadge.style.background = '#e0f2fe';
+        kpiVarBadge.style.color = '#0284c7';
+        kpiVarBadge.innerText = `S/ ${(totalUnidades > 0 ? totalVentas/totalUnidades : 0).toFixed(0)}/und`;
+        kpiVarSub.innerText = `Ene: S/ ${Math.round(vEne)} · Feb: S/ ${Math.round(vFeb)} · Mar: S/ ${Math.round(vMar)}`;
+      }
+
+      // 2. ACTUALIZAR PÁGINA 1: GRÁFICOS Y TABLA RESUMEN
+      actualizarGraficosResumen(vEne, vFeb, vMar, data);
+      actualizarTablaCategorias(data, totalVentas);
+
+      // 3. ACTUALIZAR PÁGINA 2: ANÁLISIS DE TIENDAS
+      actualizarAnalisisTiendas(data);
+
+      // 4. ACTUALIZAR PÁGINA 3: CLIENTES Y PRODUCTOS
+      actualizarAnalisisClientesYProductos(data);
+    }
+
+    // -------------------------------------------------------------
+    // GRÁFICOS RESUMEN (TAB 1)
+    // -------------------------------------------------------------
+    function actualizarGraficosResumen(vEne, vFeb, vMar, data) {
+      // Gráfico 1: Ventas por Mes
+      let labelsMes = ['Enero', 'Febrero'];
+      let valoresMes = [vEne, vFeb];
+      let coloresMes = ['#2563eb', '#3b82f6'];
+
+      if (estadoFiltros.periodo === 'todos' || estadoFiltros.periodo === '3') {
+        labelsMes.push('Marzo (Calidad)');
+        valoresMes.push(vMar);
+        coloresMes.push('#94a3b8');
+      }
+
+      if (chartMesInstance) {
+        chartMesInstance.data.labels = labelsMes;
+        chartMesInstance.data.datasets[0].data = valoresMes;
+        chartMesInstance.data.datasets[0].backgroundColor = coloresMes;
+        chartMesInstance.update();
+      }
+
+      // Gráfico 2: Ventas por Categoría (Dona)
+      const catTotales = {};
+      data.forEach(d => {
+        catTotales[d.Categoria] = (catTotales[d.Categoria] || 0) + d.Importe;
+      });
+
+      const categoriasOrden = ['LAPTOPS', 'MONITORES', 'IMPRESORAS', 'COMPONENTES', 'ACCESORIOS'];
+      const labelsCat = [];
+      const dataCat = [];
+      const coloresCat = ['#2563eb', '#0ea5e9', '#10b981', '#8b5cf6', '#f59e0b'];
+      const coloresUsados = [];
+
+      const totalV = data.reduce((acc, r) => acc + r.Importe, 0);
+
+      categoriasOrden.forEach((cat, i) => {
+        const val = catTotales[cat] || 0;
+        if (val > 0 || totalV === 0) {
+          const pct = totalV > 0 ? ((val / totalV) * 100).toFixed(1) : 0;
+          labelsCat.push(`${cat} (${pct}%)`);
+          dataCat.push(val);
+          coloresUsados.push(coloresCat[i]);
+        }
+      });
+
+      if (chartCatInstance) {
+        chartCatInstance.data.labels = labelsCat.length ? labelsCat : ['Sin datos'];
+        chartCatInstance.data.datasets[0].data = dataCat.length ? dataCat : [0];
+        chartCatInstance.data.datasets[0].backgroundColor = coloresUsados.length ? coloresUsados : ['#e2e8f0'];
+        chartCatInstance.update();
+      }
+
+      // Gráfico 3: Ventas por Canal
+      const canalTotales = { 'VENTA CORPORATIVA': 0, 'TIENDA FÍSICA': 0, 'E-COMMERCE': 0 };
+      data.forEach(d => {
+        canalTotales[d.Canal] = (canalTotales[d.Canal] || 0) + d.Importe;
+      });
+
+      if (chartCanalInstance) {
+        chartCanalInstance.data.datasets[0].data = [
+          canalTotales['VENTA CORPORATIVA'] || 0,
+          canalTotales['TIENDA FÍSICA'] || 0,
+          canalTotales['E-COMMERCE'] || 0
+        ];
+        chartCanalInstance.update();
+      }
+    }
+
+    function actualizarTablaCategorias(data, totalVentas) {
+      const categorias = [
+        { nombre: 'LAPTOPS', icono: '💻', color: '#2563eb' },
+        { nombre: 'MONITORES', icono: '🖥️', color: '#0ea5e9' },
+        { nombre: 'IMPRESORAS', icono: '🖨️', color: '#10b981' },
+        { nombre: 'COMPONENTES', icono: '🔌', color: '#8b5cf6' },
+        { nombre: 'ACCESORIOS', icono: '🖱️', color: '#f59e0b' }
+      ];
+
+      const agg = {};
+      categorias.forEach(c => agg[c.nombre] = { unidades: 0, monto: 0 });
+
+      data.forEach(d => {
+        if (!agg[d.Categoria]) agg[d.Categoria] = { unidades: 0, monto: 0 };
+        agg[d.Categoria].unidades += d.Cantidad;
+        agg[d.Categoria].monto += d.Importe;
+      });
+
+      let html = '';
+      categorias.forEach(c => {
+        const item = agg[c.nombre] || { unidades: 0, monto: 0 };
+        const pct = totalVentas > 0 ? ((item.monto / totalVentas) * 100).toFixed(2) : '0.00';
+        html += `
+          <tr>
+            <td><strong>${c.icono} ${c.nombre}</strong></td>
+            <td class="text-center font-mono">${item.unidades}</td>
+            <td class="text-right font-mono font-bold">${formatSoles(item.monto)}</td>
+            <td class="text-right font-mono">${pct}%</td>
+            <td>
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" style="width: ${pct}%; background: ${c.color};"></div>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+
+      document.getElementById('tbodyCategorias').innerHTML = html;
+    }
+
+    // -------------------------------------------------------------
+    // ANÁLISIS DE TIENDAS Y METAS (TAB 2)
+    // -------------------------------------------------------------
+    function actualizarAnalisisTiendas(data) {
+      if (typeof METAS === 'undefined') return;
+
+      // Metas según período seleccionado
+      let mesesMetas = ['Enero', 'Febrero'];
+      if (estadoFiltros.periodo === '1') mesesMetas = ['Enero'];
+      if (estadoFiltros.periodo === '2') mesesMetas = ['Febrero'];
+
+      const tiendasList = [
+        { cod: 'T01', nombre: 'COTEP Centro', zona: 'Centro' },
+        { cod: 'T02', nombre: 'COTEP San Isidro', zona: 'Centro' },
+        { cod: 'T05', nombre: 'COTEP Los Olivos', zona: 'Norte' },
+        { cod: 'T04', nombre: 'COTEP San Miguel', zona: 'Oeste' },
+        { cod: 'T03', nombre: 'COTEP Miraflores', zona: 'Sur' },
+        { cod: 'T06', nombre: 'COTEP Surco', zona: 'Sur' }
+      ];
+
+      // Sumar metas y ventas por tienda
+      const resumenTiendas = tiendasList.map(t => {
+        const metasTienda = METAS.filter(m => m.Cod_Tienda === t.cod && mesesMetas.includes(m.Mes));
+        const metaTotal = metasTienda.reduce((acc, m) => acc + m.Meta_Ventas, 0);
+
+        let ventaReal = data.filter(d => d.Cod_Tienda === t.cod).reduce((acc, r) => acc + r.Importe, 0);
+        
+        // Impacto simulado en Surco (T06) si el usuario usó el slider
+        if (t.cod === 'T06' && estadoFiltros.simulacionSurcoPct > 0) {
+          const ventaSimulada = metaTotal * (estadoFiltros.simulacionSurcoPct / 100);
+          ventaReal += ventaSimulada;
+        }
+
+        const pct = metaTotal > 0 ? (ventaReal / metaTotal) * 100 : 0;
+        const brecha = ventaReal - metaTotal;
+
+        return {
+          ...t,
+          metaTotal,
+          ventaReal,
+          pct,
+          brecha
+        };
+      });
+
+      // Ordenar para el ranking de peor a mejor
+      const ranking = [...resumenTiendas].sort((a, b) => a.pct - b.pct);
+
+      let htmlRanking = '';
+      ranking.forEach((t, i) => {
+        let pillClass = 'pill-danger';
+        let estadoTxt = 'Crítico';
+        let colorTxt = '#dc2626';
+
+        if (t.pct === 0) {
+          estadoTxt = 'Sin Ventas';
+        } else if (t.pct < 20) {
+          estadoTxt = 'Crítico';
+        } else if (t.pct < 50) {
+          pillClass = 'pill-warning';
+          estadoTxt = 'Bajo';
+          colorTxt = '#d97706';
+        } else {
+          pillClass = 'pill-success';
+          estadoTxt = 'Regular';
+          colorTxt = '#15803d';
+        }
+
+        htmlRanking += `
+          <tr style="${t.cod === 'T06' && t.pct === 0 ? 'background-color:#fff1f2;' : (t.pct >= 50 ? 'background-color:#f0fdf4;' : '')}">
+            <td><strong>#${i + 1}</strong></td>
+            <td><strong>${t.nombre}</strong></td>
+            <td>${t.zona}</td>
+            <td class="text-right font-mono font-bold" style="color: ${colorTxt};">${t.pct.toFixed(2)}%</td>
+            <td><span class="pill ${pillClass}">${estadoTxt}</span></td>
+          </tr>
+        `;
+      });
+      document.getElementById('tbodyRankingTiendas').innerHTML = htmlRanking;
+
+      // Gráficos de Tiendas
+      if (chartMetasInstance) {
+        chartMetasInstance.data.labels = resumenTiendas.map(t => t.cod + ' ' + t.nombre.replace('COTEP ', ''));
+        chartMetasInstance.data.datasets[0].data = resumenTiendas.map(t => t.metaTotal);
+        chartMetasInstance.data.datasets[1].data = resumenTiendas.map(t => t.ventaReal);
+        chartMetasInstance.data.datasets[1].backgroundColor = resumenTiendas.map(t => 
+          t.pct >= 50 ? '#15803d' : (t.pct >= 20 ? '#f59e0b' : (t.pct > 0 ? '#ef4444' : '#991b1b'))
+        );
+        chartMetasInstance.update();
+      }
+
+      if (chartCumplInstance) {
+        chartCumplInstance.data.labels = resumenTiendas.map(t => t.cod + ' ' + t.nombre.replace('COTEP ', ''));
+        chartCumplInstance.data.datasets[0].data = resumenTiendas.map(t => t.pct);
+        chartCumplInstance.data.datasets[0].backgroundColor = resumenTiendas.map(t => 
+          t.pct >= 50 ? '#10b981' : (t.pct >= 20 ? '#f59e0b' : (t.pct > 0 ? '#ef4444' : '#b91c1c'))
+        );
+        chartCumplInstance.update();
+      }
+
+      // Matriz mensual
+      let htmlMatriz = '';
+      METAS.forEach(m => {
+        if (!mesesMetas.includes(m.Mes)) return;
+        const tie = mapaTiendas[m.Cod_Tienda] || {};
+        
+        let ventaM = data
+          .filter(d => d.Cod_Tienda === m.Cod_Tienda && d.Mes_Nombre === m.Mes)
+          .reduce((acc, r) => acc + r.Importe, 0);
+
+        if (m.Cod_Tienda === 'T06' && estadoFiltros.simulacionSurcoPct > 0) {
+          ventaM += m.Meta_Ventas * (estadoFiltros.simulacionSurcoPct / 100);
+        }
+
+        const pctM = (ventaM / m.Meta_Ventas) * 100;
+        const brechaM = ventaM - m.Meta_Ventas;
+
+        let pill = 'pill-danger';
+        let est = 'Crítico';
+        if (pctM === 0) est = 'Sin Ventas';
+        else if (pctM >= 50) { pill = 'pill-success'; est = 'Regular'; }
+        else if (pctM >= 20) { pill = 'pill-warning'; est = 'Bajo'; }
+
+        htmlMatriz += `
+          <tr style="${m.Cod_Tienda === 'T06' && pctM === 0 ? 'background-color:#fff1f2;' : ''}">
+            <td><strong>${m.Mes}</strong></td>
+            <td class="font-mono">${m.Cod_Tienda}</td>
+            <td>${tie.Tienda || m.Cod_Tienda}</td>
+            <td>${tie.Distrito || '-'}</td>
+            <td class="text-right font-mono">${formatSolesEntero(m.Meta_Ventas)}</td>
+            <td class="text-right font-mono font-bold">${formatSolesEntero(ventaM)}</td>
+            <td class="text-right font-mono" style="color: #dc2626;">${formatSolesEntero(brechaM)}</td>
+            <td class="text-center font-mono font-bold">${pctM.toFixed(2)}%</td>
+            <td><span class="pill ${pill}">${est}</span></td>
+          </tr>
+        `;
+      });
+      document.getElementById('tbodyMatrizMetas').innerHTML = htmlMatriz;
+    }
+
+    // -------------------------------------------------------------
+    // SIMULADOR WHAT-IF PARA SURCO
+    // -------------------------------------------------------------
+    function simularSurco(val) {
+      estadoFiltros.simulacionSurcoPct = Number(val);
+      const metaSurco = 57000; // Ene (27k) + Feb (30k)
+      const impactoSoles = metaSurco * (estadoFiltros.simulacionSurcoPct / 100);
+
+      document.getElementById('valorSimulador').innerText = `Simulado: ${val}% de meta (${formatSolesEntero(impactoSoles)})`;
+      document.getElementById('impactoSimulador').innerText = `+${formatSoles(impactoSoles)}`;
+
+      renderizarDashboardCompleto();
+    }
+
+    // -------------------------------------------------------------
+    // ANÁLISIS DE CLIENTES Y PRODUCTOS (TAB 3)
+    // -------------------------------------------------------------
+    function cambiarCriterioClientes(criterio) {
+      estadoFiltros.criterioClientes = criterio;
+      document.getElementById('toggleMonto').classList.toggle('active', criterio === 'monto');
+      document.getElementById('toggleUnidades').classList.toggle('active', criterio === 'unidades');
+
+      const data = obtenerDatosFiltrados();
+      actualizarAnalisisClientesYProductos(data);
+    }
+
+    function filtrarClientesEnTabla(query) {
+      estadoFiltros.busquedaCliente = query.toLowerCase().trim();
+      const data = obtenerDatosFiltrados();
+      actualizarAnalisisClientesYProductos(data);
+    }
+
+    function filtrarProductosEnTabla(query) {
+      estadoFiltros.busquedaProducto = query.toLowerCase().trim();
+      const data = obtenerDatosFiltrados();
+      actualizarAnalisisClientesYProductos(data);
+    }
+
+    function actualizarAnalisisClientesYProductos(data) {
+      // 1. Clientes
+      const cliAgg = {};
+      data.forEach(d => {
+        if (!cliAgg[d.Cliente]) {
+          cliAgg[d.Cliente] = { cliente: d.Cliente, segmento: d.Segmento, unidades: 0, monto: 0 };
+        }
+        cliAgg[d.Cliente].unidades += d.Cantidad;
+        cliAgg[d.Cliente].monto += d.Importe;
+      });
+
+      let clientesList = Object.values(cliAgg);
+
+      if (estadoFiltros.busquedaCliente) {
+        clientesList = clientesList.filter(c => c.cliente.toLowerCase().includes(estadoFiltros.busquedaCliente));
+      }
+
+      if (estadoFiltros.criterioClientes === 'monto') {
+        clientesList.sort((a, b) => b.monto - a.monto);
+      } else {
+        clientesList.sort((a, b) => b.unidades - a.unidades);
+      }
+
+      // Gráfico Top 5 Clientes Dinámico
+      const top5 = clientesList.slice(0, 5);
+      if (chartTopCliInstance) {
+        chartTopCliInstance.data.labels = top5.map(c => c.cliente);
+        chartTopCliInstance.data.datasets[0].label = estadoFiltros.criterioClientes === 'monto' ? 'Monto Facturado (S/)' : 'Unidades';
+        chartTopCliInstance.data.datasets[0].data = top5.map(c => estadoFiltros.criterioClientes === 'monto' ? c.monto : c.unidades);
+        chartTopCliInstance.data.datasets[0].backgroundColor = top5.map((c, i) => i === 0 ? '#15803d' : '#2563eb');
+        chartTopCliInstance.options.scales.x.ticks.callback = estadoFiltros.criterioClientes === 'monto' 
+          ? (v) => 'S/ ' + (v / 1000) + 'k' 
+          : (v) => v;
+        chartTopCliInstance.update();
+      }
+
+      // Tabla Clientes
+      let htmlCli = '';
+      clientesList.forEach((c, idx) => {
+        const segPill = c.segmento === 'CORPORATIVO' ? 'pill-success' : 'pill-warning';
+        htmlCli += `
+          <tr style="${idx === 0 ? 'background-color:#f0fdf4;' : ''}">
+            <td><strong>${idx + 1}</strong></td>
+            <td><strong>${c.cliente}</strong></td>
+            <td><span class="pill ${segPill}">${c.segmento}</span></td>
+            <td class="text-right font-mono font-bold">${formatSoles(c.monto)}</td>
+            <td class="text-center font-mono">${c.unidades}</td>
+          </tr>
+        `;
+      });
+      document.getElementById('tbodyTopClientes').innerHTML = htmlCli || '<tr><td colspan="5" class="text-center">No se encontraron clientes</td></tr>';
+
+      // 2. Productos
+      const prodAgg = {};
+      DIM_PRODUCTO.forEach(p => {
+        prodAgg[p.Cod_Producto] = {
+          cod: p.Cod_Producto,
+          producto: p.Producto,
+          categoria: p.Categoría,
+          precioLista: p.Precio_Lista,
+          unidades: 0,
+          monto: 0
+        };
+      });
+
+      data.forEach(d => {
+        if (prodAgg[d.Cod_Producto]) {
+          prodAgg[d.Cod_Producto].unidades += d.Cantidad;
+          prodAgg[d.Cod_Producto].monto += d.Importe;
+        }
+      });
+
+      let prodList = Object.values(prodAgg);
+      if (estadoFiltros.busquedaProducto) {
+        prodList = prodList.filter(p => p.producto.toLowerCase().includes(estadoFiltros.busquedaProducto) || p.categoria.toLowerCase().includes(estadoFiltros.busquedaProducto));
+      }
+      prodList.sort((a, b) => b.unidades - a.unidades);
+
+      // Gráfico Top Productos
+      const topProd = prodList.filter(p => p.unidades > 0).slice(0, 7);
+      if (chartTopProdInstance) {
+        chartTopProdInstance.data.labels = topProd.map(p => p.producto);
+        chartTopProdInstance.data.datasets[0].data = topProd.map(p => p.unidades);
+        chartTopProdInstance.update();
+      }
+
+      // Tabla Productos
+      let htmlProd = '';
+      prodList.forEach(p => {
+        htmlProd += `
+          <tr style="${p.unidades === 0 ? 'color:#94a3b8;' : ''}">
+            <td class="font-mono">${p.cod}</td>
+            <td><strong>${p.producto}</strong></td>
+            <td>${p.categoria}</td>
+            <td class="text-center font-mono font-bold">${p.unidades}</td>
+            <td class="text-right font-mono font-bold">${formatSolesEntero(p.monto)}</td>
+          </tr>
+        `;
+      });
+      document.getElementById('tbodyProductos').innerHTML = htmlProd || '<tr><td colspan="5" class="text-center">No se encontraron productos</td></tr>';
+    }
+
+    // -------------------------------------------------------------
+    // INICIALIZACIÓN DE CHART.JS CON CROSS-FILTERING
     // -------------------------------------------------------------
     document.addEventListener('DOMContentLoaded', () => {
+      inicializarDatos();
 
-      // Colores de la paleta institucional
-      const colores = {
-        primary: '#1e3a8a',
-        accent: '#2563eb',
-        teal: '#0d9488',
-        green: '#059669',
-        amber: '#d97706',
-        red: '#dc2626',
-        purple: '#7c3aed',
-        slate: '#64748b'
-      };
-
-      // Configuración común de tipografía
       Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
       Chart.defaults.color = '#475569';
 
-      // -----------------------------------------------------------
-      // GRÁFICO 1: Ventas por Mes
-      // -----------------------------------------------------------
+      // 1. Gráfico Meses
       const ctxMes = document.getElementById('chartVentasMes').getContext('2d');
-      new Chart(ctxMes, {
+      chartMesInstance = new Chart(ctxMes, {
         type: 'bar',
         data: {
-          labels: ['Enero 2026', 'Febrero 2026', 'Marzo (Calidad)'],
+          labels: ['Enero', 'Febrero'],
           datasets: [{
             label: 'Venta Real (S/)',
-            data: [33425, 30075, 11360],
-            backgroundColor: ['#2563eb', '#3b82f6', '#94a3b8'],
-            borderRadius: 6,
-            borderSkipped: false
+            data: [33425, 30075],
+            backgroundColor: ['#2563eb', '#3b82f6'],
+            borderRadius: 6
           }]
         },
         options: {
@@ -1373,75 +1894,54 @@
           maintainAspectRatio: false,
           plugins: {
             legend: { display: false },
-            tooltip: {
-              callbacks: {
-                label: (c) => ' Total: ' + formatSoles(c.raw)
-              }
-            }
+            tooltip: { callbacks: { label: (c) => ' Total: ' + formatSoles(c.raw) } }
           },
           scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                callback: (val) => 'S/ ' + (val / 1000) + 'k'
-              },
-              grid: { color: '#f1f5f9' }
-            },
+            y: { beginAtZero: true, ticks: { callback: (v) => 'S/ ' + (v / 1000) + 'k' }, grid: { color: '#f1f5f9' } },
             x: { grid: { display: false } }
           }
         }
       });
 
-      // -----------------------------------------------------------
-      // GRÁFICO 2: Ventas por Categoría (Dona)
-      // -----------------------------------------------------------
+      // 2. Gráfico Categorías con Cross-Filtering al hacer clic
       const ctxCat = document.getElementById('chartCategorias').getContext('2d');
-      new Chart(ctxCat, {
+      chartCatInstance = new Chart(ctxCat, {
         type: 'doughnut',
         data: {
-          labels: ['Laptops (71.7%)', 'Monitores (18.0%)', 'Impresoras (4.9%)', 'Componentes (4.4%)', 'Accesorios (1.1%)'],
-          datasets: [{
-            data: [45500, 11400, 3120, 2800, 680],
-            backgroundColor: [
-              '#2563eb',
-              '#0ea5e9',
-              '#10b981',
-              '#8b5cf6',
-              '#f59e0b'
-            ],
-            borderWidth: 2,
-            borderColor: '#ffffff'
-          }]
+          labels: [],
+          datasets: [{ data: [], backgroundColor: [], borderWidth: 2, borderColor: '#ffffff' }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          cutout: '65%',
           plugins: {
-            legend: {
-              position: 'bottom',
-              labels: { boxWidth: 12, font: { size: 11 }, padding: 10 }
-            },
-            tooltip: {
-              callbacks: {
-                label: (c) => ' ' + c.label + ': ' + formatSoles(c.raw)
-              }
-            }
+            legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 }, padding: 8 } },
+            tooltip: { callbacks: { label: (c) => ' ' + c.label + ': ' + formatSoles(c.raw) } }
           },
-          cutout: '65%'
+          onClick: (evt, elements) => {
+            if (elements.length > 0) {
+              const index = elements[0].index;
+              const labelCompleto = chartCatInstance.data.labels[index];
+              const nombreCat = labelCompleto.split(' ')[0]; // Ej: "LAPTOPS"
+              
+              const filtroCat = document.getElementById('filtroCategoria');
+              filtroCat.value = filtroCat.value === nombreCat ? 'TODAS' : nombreCat;
+              aplicarFiltros();
+            }
+          }
         }
       });
 
-      // -----------------------------------------------------------
-      // GRÁFICO 3: Ventas por Canal
-      // -----------------------------------------------------------
+      // 3. Gráfico Canales con Cross-Filtering al hacer clic
       const ctxCanal = document.getElementById('chartCanales').getContext('2d');
-      new Chart(ctxCanal, {
+      chartCanalInstance = new Chart(ctxCanal, {
         type: 'bar',
         data: {
           labels: ['Venta Corporativa', 'Tienda Física', 'E-Commerce'],
           datasets: [{
             label: 'Facturación (S/)',
-            data: [55070, 8430, 0],
+            data: [0, 0, 0],
             backgroundColor: ['#1e40af', '#0284c7', '#e2e8f0'],
             borderRadius: 6
           }]
@@ -1451,58 +1951,35 @@
           maintainAspectRatio: false,
           plugins: {
             legend: { display: false },
-            tooltip: {
-              callbacks: {
-                label: (c) => ' Ventas: ' + formatSoles(c.raw)
-              }
-            }
+            tooltip: { callbacks: { label: (c) => ' Ventas: ' + formatSoles(c.raw) } }
           },
           scales: {
-            y: {
-              beginAtZero: true,
-              ticks: { callback: (val) => 'S/ ' + (val / 1000) + 'k' },
-              grid: { color: '#f1f5f9' }
-            },
+            y: { beginAtZero: true, ticks: { callback: (v) => 'S/ ' + (v / 1000) + 'k' }, grid: { color: '#f1f5f9' } },
             x: { grid: { display: false } }
+          },
+          onClick: (evt, elements) => {
+            if (elements.length > 0) {
+              const idx = elements[0].index;
+              const canalMap = [3, 1, 2];
+              const targetCanal = String(canalMap[idx]);
+              
+              const filtroCanal = document.getElementById('filtroCanal');
+              filtroCanal.value = filtroCanal.value === targetCanal ? 'TODOS' : targetCanal;
+              aplicarFiltros();
+            }
           }
         }
       });
 
-      // -----------------------------------------------------------
-      // GRÁFICO 4: Metas vs Ventas por Tienda (Página 2)
-      // -----------------------------------------------------------
+      // 4. Gráfico Metas vs Ventas (Tab 2)
       const ctxMetas = document.getElementById('chartMetasTiendas').getContext('2d');
-      new Chart(ctxMetas, {
+      chartMetasInstance = new Chart(ctxMetas, {
         type: 'bar',
         data: {
-          labels: [
-            'T01 Centro', 
-            'T02 San Isidro', 
-            'T05 Los Olivos', 
-            'T04 San Miguel', 
-            'T03 Miraflores', 
-            'T06 Surco (Crítico)'
-          ],
+          labels: [],
           datasets: [
-            {
-              label: 'Meta Comercial Bimestral (S/)',
-              data: [69000, 67000, 53000, 61000, 57000, 57000],
-              backgroundColor: '#cbd5e1',
-              borderRadius: 6
-            },
-            {
-              label: 'Venta Real Facturada (S/)',
-              data: [37680, 17390, 3680, 3510, 1240, 0],
-              backgroundColor: [
-                '#15803d', // Centro (54.6%)
-                '#f59e0b', // San Isidro (26.0%)
-                '#ef4444', // Los Olivos (6.9%)
-                '#ef4444', // San Miguel (5.8%)
-                '#ef4444', // Miraflores (2.2%)
-                '#991b1b'  // Surco (0.0%)
-              ],
-              borderRadius: 6
-            }
+            { label: 'Meta Comercial (S/)', data: [], backgroundColor: '#cbd5e1', borderRadius: 6 },
+            { label: 'Venta Real Facturada (S/)', data: [], backgroundColor: [], borderRadius: 6 }
           ]
         },
         options: {
@@ -1510,51 +1987,22 @@
           maintainAspectRatio: false,
           plugins: {
             legend: { position: 'top' },
-            tooltip: {
-              callbacks: {
-                label: (c) => ' ' + c.dataset.label + ': ' + formatSoles(c.raw)
-              }
-            }
+            tooltip: { callbacks: { label: (c) => ' ' + c.dataset.label + ': ' + formatSoles(c.raw) } }
           },
           scales: {
-            y: {
-              beginAtZero: true,
-              ticks: { callback: (val) => 'S/ ' + (val / 1000) + 'k' },
-              grid: { color: '#f1f5f9' }
-            },
+            y: { beginAtZero: true, ticks: { callback: (v) => 'S/ ' + (v / 1000) + 'k' }, grid: { color: '#f1f5f9' } },
             x: { grid: { display: false } }
           }
         }
       });
 
-      // -----------------------------------------------------------
-      // GRÁFICO 5: Cumplimiento Pct por Tienda (Barras Horizontales)
-      // -----------------------------------------------------------
+      // 5. Gráfico % Cumplimiento
       const ctxCumpl = document.getElementById('chartCumplimientoPct').getContext('2d');
-      new Chart(ctxCumpl, {
+      chartCumplInstance = new Chart(ctxCumpl, {
         type: 'bar',
         data: {
-          labels: [
-            'T01 Centro',
-            'T02 San Isidro',
-            'T05 Los Olivos',
-            'T04 San Miguel',
-            'T03 Miraflores',
-            'T06 Surco'
-          ],
-          datasets: [{
-            label: '% Cumplimiento',
-            data: [54.61, 25.96, 6.94, 5.75, 2.18, 0.00],
-            backgroundColor: [
-              '#10b981',
-              '#f59e0b',
-              '#ef4444',
-              '#ef4444',
-              '#ef4444',
-              '#b91c1c'
-            ],
-            borderRadius: 6
-          }]
+          labels: [],
+          datasets: [{ label: '% Cumplimiento', data: [], backgroundColor: [], borderRadius: 6 }]
         },
         options: {
           indexAxis: 'y',
@@ -1562,146 +2010,57 @@
           maintainAspectRatio: false,
           plugins: {
             legend: { display: false },
-            tooltip: {
-              callbacks: {
-                label: (c) => ' Cumplimiento: ' + c.raw.toFixed(2) + '%'
-              }
-            }
+            tooltip: { callbacks: { label: (c) => ' Cumplimiento: ' + c.raw.toFixed(2) + '%' } }
           },
           scales: {
-            x: {
-              beginAtZero: true,
-              max: 100,
-              ticks: { callback: (v) => v + '%' },
-              grid: { color: '#f1f5f9' }
-            },
+            x: { beginAtZero: true, max: 100, ticks: { callback: (v) => v + '%' }, grid: { color: '#f1f5f9' } },
             y: { grid: { display: false } }
           }
         }
       });
 
-      // -----------------------------------------------------------
-      // GRÁFICO 6: Top Clientes por Unidades
-      // -----------------------------------------------------------
-      const ctxTopCliU = document.getElementById('chartTopClientesUnidades').getContext('2d');
-      new Chart(ctxTopCliU, {
+      // 6. Gráfico Top Clientes
+      const ctxTopCli = document.getElementById('chartTopClientesDin').getContext('2d');
+      chartTopCliInstance = new Chart(ctxTopCli, {
         type: 'bar',
         data: {
-          labels: [
-            'Tecnología Global SAC',
-            'Grupo Alpha SAC',
-            'Servicios Integrales SAC',
-            'Juan Pérez García',
-            'María López Torres'
-          ],
-          datasets: [{
-            label: 'Unidades',
-            data: [9, 8, 8, 7, 6],
-            backgroundColor: '#0284c7',
-            borderRadius: 6
-          }]
+          labels: [],
+          datasets: [{ label: 'Monto (S/)', data: [], backgroundColor: '#2563eb', borderRadius: 6 }]
         },
         options: {
           indexAxis: 'y',
           responsive: true,
           maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false }
-          },
+          plugins: { legend: { display: false } },
           scales: {
-            x: { beginAtZero: true, ticks: { stepSize: 2 } },
+            x: { beginAtZero: true, grid: { color: '#f1f5f9' } },
             y: { grid: { display: false } }
           }
         }
       });
 
-      // -----------------------------------------------------------
-      // GRÁFICO 7: Top Clientes por Monto Facturado
-      // -----------------------------------------------------------
-      const ctxTopCliM = document.getElementById('chartTopClientesMonto').getContext('2d');
-      new Chart(ctxTopCliM, {
-        type: 'bar',
-        data: {
-          labels: [
-            'Grupo Alpha SAC',
-            'Servicios Integrales SAC',
-            'Tecnología Global SAC',
-            'Soluciones Digitales SAC',
-            'Carlos Ramírez Soto'
-          ],
-          datasets: [{
-            label: 'Facturación (S/)',
-            data: [24800, 12880, 12750, 4640, 3680],
-            backgroundColor: [
-              '#15803d',
-              '#2563eb',
-              '#2563eb',
-              '#3b82f6',
-              '#f59e0b'
-            ],
-            borderRadius: 6
-          }]
-        },
-        options: {
-          indexAxis: 'y',
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              callbacks: {
-                label: (c) => ' Total: ' + formatSoles(c.raw)
-              }
-            }
-          },
-          scales: {
-            x: {
-              beginAtZero: true,
-              ticks: { callback: (v) => 'S/ ' + (v / 1000) + 'k' }
-            },
-            y: { grid: { display: false } }
-          }
-        }
-      });
-
-      // -----------------------------------------------------------
-      // GRÁFICO 8: Top Productos por Unidades
-      // -----------------------------------------------------------
+      // 7. Gráfico Top Productos
       const ctxProd = document.getElementById('chartTopProductos').getContext('2d');
-      new Chart(ctxProd, {
+      chartTopProdInstance = new Chart(ctxProd, {
         type: 'bar',
         data: {
-          labels: [
-            'Laptop Lenovo IdeaPad',
-            'Monitor Samsung 24',
-            'Disco SSD Kingston 1TB',
-            'Mouse Logitech M185',
-            'Laptop HP 14',
-            'Monitor LG 27',
-            'Impresora Epson L3250'
-          ],
-          datasets: [{
-            label: 'Unidades Vendidas',
-            data: [10, 8, 7, 7, 5, 4, 4],
-            backgroundColor: '#4338ca',
-            borderRadius: 6
-          }]
+          labels: [],
+          datasets: [{ label: 'Unidades Vendidas', data: [], backgroundColor: '#4338ca', borderRadius: 6 }]
         },
         options: {
           indexAxis: 'y',
           responsive: true,
           maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false }
-          },
+          plugins: { legend: { display: false } },
           scales: {
-            x: { beginAtZero: true, ticks: { stepSize: 2 } },
+            x: { beginAtZero: true, ticks: { stepSize: 2 }, grid: { color: '#f1f5f9' } },
             y: { grid: { display: false } }
           }
         }
       });
 
-      // Cargar primera tabla en modal
+      // Ejecutar primer renderizado
+      renderizarDashboardCompleto();
       mostrarTabla('FACT_VENTAS');
     });
 
